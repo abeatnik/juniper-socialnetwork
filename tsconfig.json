@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "./src/",
         "noImplicitAny": true,
-        "module": "es6",
+        "module": "CommonJs",
         "target": "es5",
         "jsx": "react-jsx",
         "allowJs": true,
