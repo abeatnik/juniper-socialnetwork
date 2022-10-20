@@ -1,7 +1,7 @@
-import * as express from "express";
+import express from "express";
 const app = express();
-const compression = require("compression");
-const path = require("path");
+import compression from "compression";
+import path from "path";
 
 app.use(compression());
 

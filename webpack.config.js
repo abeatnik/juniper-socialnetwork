@@ -8,6 +8,7 @@ module.exports = () => ({
         path.join(__dirname, "client", "style.css"),
         path.join(__dirname, "client", "src", "start.tsx"),
     ],
+    devtool: "inline-source-map",
     output: {
         path: path.join(__dirname, "client", "public"),
         filename: "bundle.js",
@@ -32,6 +33,7 @@ module.exports = () => ({
         rules: [
             {
                 test: /\.jsx?$/,
+                exclude: /node_modules/,
                 loader: "babel-loader",
             },
             {

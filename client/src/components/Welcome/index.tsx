@@ -6,6 +6,7 @@ export default class Welcome extends Component {
         return (
             <>
                 <h2>Welcome</h2>
+                <Registration />
             </>
         );
     }
