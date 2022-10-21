@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import Registration from "../Registration/index";
 
 export default class Welcome extends Component {
@@ -6,9 +7,13 @@ export default class Welcome extends Component {
         return (
             <>
                 <h2>Welcome</h2>
-                <Registration />
+                <BrowserRouter>
+                    <Route exact path="/">
+                        <Registration />
+                    </Route>
+                    <Route path="/login">Login here</Route>
+                </BrowserRouter>
             </>
         );
     }
 }
-//  <Registration />;
