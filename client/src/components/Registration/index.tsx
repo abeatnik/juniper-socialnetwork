@@ -117,7 +117,7 @@ export default class Registration extends Component<
                     }
                 });
         } else {
-            //render error message of property that is wrong missing
+            //render error message of property that is wrong missing -> update components state, change state interface first
         }
     };
 }

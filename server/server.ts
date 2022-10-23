@@ -46,12 +46,6 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
 
-app.get("/user/id.json", function (req, res) {
-    res.json({
-        userId: req.session.userId,
-    });
-});
-
 app.post("/registration.json", (req, res) => {
     console.log(req.body);
     db.insertUser(req.body)
@@ -62,6 +56,32 @@ app.post("/registration.json", (req, res) => {
         .catch(() => {
             res.json({ success: false });
         });
+});
+
+app.post("/login.json", (req, res) => {
+    db.getUserByEmail(req.body.email)
+        .then((entry) => {
+            db.authenticateUser(entry.rows[0].password, req.body.password).then(
+                (authenticated) => {
+                    if (authenticated) {
+                        res.json({ success: true });
+                    } else {
+                        //password does not match
+                        res.json({ success: false });
+                    }
+                }
+            );
+        })
+        .catch(() => {
+            ///email could not be found
+            res.json({ success: false });
+        });
+});
+
+app.get("/user/id.json", function (req, res) {
+    res.json({
+        userId: req.session.userId,
+    });
 });
 
 app.get("*", function (req, res): void {
