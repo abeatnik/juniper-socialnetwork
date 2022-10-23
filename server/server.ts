@@ -78,6 +78,18 @@ app.post("/login.json", (req, res) => {
         });
 });
 
+app.post("/reset1", (req, res) => {
+    db.getUserByEmail(req.body.email).then((entry) => {
+        if (entry.rows[0].id) {
+            res.json({ success: true });
+            //generate a secret code and store it
+            //sends off email (this will be implemented later). For now you can just console.log the generated code
+        } else {
+            res.json({ success: false });
+        }
+    });
+});
+
 app.get("/user/id.json", function (req, res) {
     res.json({
         userId: req.session.userId,
