@@ -6,6 +6,7 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL CHECK(last_name != ''), 
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    restore_pw VARCHAR(60) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+    -- restore_pw VARCHAR(60) NOT NULL,
