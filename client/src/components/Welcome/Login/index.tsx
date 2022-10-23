@@ -52,7 +52,10 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
                     <button type="submit">Login</button>
                 </form>
                 <p>
-                    Not yet a user? Please <Link to="/">sign in</Link>.
+                    Forgot your password? Click <Link to="/reset">here</Link>.
+                </p>
+                <p>
+                    Not yet a user? Please <Link to="/">sign up</Link>.
                 </p>
             </>
         );

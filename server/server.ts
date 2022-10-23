@@ -96,7 +96,7 @@ app.post("/reset1", (req, res) => {
                     console.log(secretCode);
                     //sends off email (this will be implemented later). For now you can just console.log the generated code
                 })
-                .cath((err: Error) => console.log(err));
+                .catch((err: Error) => console.log(err));
         } else {
             res.json({ success: false });
         }
@@ -104,23 +104,27 @@ app.post("/reset1", (req, res) => {
 });
 
 app.post("/reset2", (req, res) => {
-    const { email, verificationCode, newPassword } = req.body;
+    console.log(req.body);
+    const { email, code, newPassword } = req.body;
     db.checkVerificationCode(email).then((entry: QueryResult) => {
         if (entry.rows[0].code) {
             const trueCode = entry.rows[0].code;
-            if (trueCode === verificationCode) {
+            if (trueCode === code) {
                 db.hashPassword(newPassword)
                     .then((newHash) => {
                         db.updateUserPassword(email, newHash)
                             .then(() => {
-                                db.deleteVerificationCode(verificationCode);
+                                db.deleteVerificationCode(code);
                                 res.json({ success: true });
                             })
                             .catch(() => res.json({ success: false }));
                     })
                     .catch(() => res.json({ success: false }));
+            } else {
+                res.json({ success: false });
             }
         } else {
+            res.json({ success: false });
         }
     });
 });

@@ -55,7 +55,7 @@ export const storeVerificationCode = (email: string, code: string) => {
 };
 
 export const checkVerificationCode = (email: string) => {
-    const sql = `SELECT code FROM verification_codes WHERE user_email=$1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';`;
+    const sql = `SELECT * FROM verification_codes WHERE user_email=$1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY created_at DESC LIMIT 1;`;
     return db.query(sql, [email]);
 };
 
