@@ -9,4 +9,3 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-    -- restore_pw VARCHAR(60) NOT NULL,

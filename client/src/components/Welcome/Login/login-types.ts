@@ -1,21 +1,17 @@
-export namespace RegistrationTypes {
+export namespace LoginTypes {
     export interface State {
-        firstname: string;
-        lastname: string;
         email: string;
         password: string;
+        userId?: string;
         errors: {
-            firstname: boolean;
-            lastname: boolean;
             email: boolean;
             password: boolean;
         };
         message?: string;
+        showError: boolean;
     }
 
-    export interface NewUser {
-        firstname: string;
-        lastname: string;
+    export interface Login {
         email: string;
         password: string;
     }

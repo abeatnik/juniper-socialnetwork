@@ -15,6 +15,7 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
                 email: false,
                 password: false,
             },
+            showError: false,
         };
     }
 
@@ -23,25 +24,35 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
             <>
                 <h2>Login</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="email">E-Mail</label>
+                    {this.state.message && (
+                        <p className="errorMessage">{this.state.message}</p>
+                    )}
+                    <label htmlFor="email">E-Mail </label>
                     <input
                         type="email"
                         name="email"
                         value={this.state.email}
                         onChange={this.handleInputChange}
                     />
-                    <label htmlFor="password">Choose a Password</label>
+                    {this.state.showError && !this.state.errors.email && (
+                        <p className="error">
+                            Please enter your e-Mail address.
+                        </p>
+                    )}
+                    <label htmlFor="password">Password </label>
                     <input
                         type="password"
                         name="password"
                         value={this.state.password}
                         onChange={this.handleInputChange}
                     />
+                    {this.state.showError && !this.state.errors.password && (
+                        <p className="error">Please enter your password.</p>
+                    )}
                     <button type="submit">Login</button>
                 </form>
                 <p>
-                    Not yet a user? Please{" "}
-                    <Link to="/registration">sign in</Link>.
+                    Not yet a user? Please <Link to="/">sign in</Link>.
                 </p>
             </>
         );
@@ -81,11 +92,24 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
                         //userId....
                         location.reload();
                     } else {
-                        ///show message that login failed...
+                        window.alert("Login failed");
+                        this.setState({
+                            email: "",
+                            password: "",
+                            errors: {
+                                //how to access the object properties???
+
+                                email: false,
+                                password: false,
+                            },
+                            showError: false,
+                        });
                     }
                 });
         } else {
-            //render message please enter your password/email
+            this.setState({
+                showError: true,
+            });
         }
     };
 }

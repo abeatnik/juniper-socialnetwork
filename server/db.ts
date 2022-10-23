@@ -6,7 +6,7 @@ dotenv.config();
 const DATABASE_URL = process.env.DATABASE_URL;
 const db = spicedPg(DATABASE_URL);
 import { DBTypes } from "./db-types";
-import { RegistrationTypes } from "../client/src/components/Registration/registration-types";
+import { RegistrationTypes } from "../client/src/components/Welcome/Registration/registration-types";
 
 export const insertUser = (user: RegistrationTypes.NewUser) => {
     const sql = `
@@ -33,7 +33,7 @@ export const hashPassword = (password: string) => {
 
 export const getUserByEmail = (email: string): Promise<QueryResult> => {
     const sql = `
-    SELECT password, users.id AS user_id, signatures.id AS signature_id FROM users LEFT JOIN signatures ON users.id=signatures.user_id WHERE users.email = $1;
+    SELECT * FROM users WHERE email = $1;
     `;
     return db.query(sql, [email]);
 };

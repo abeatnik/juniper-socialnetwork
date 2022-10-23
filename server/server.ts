@@ -7,6 +7,7 @@ import Helmet from "helmet";
 import * as db from "./db";
 import * as dotenv from "dotenv";
 import cryptoRandomString from "crypto-random-string";
+import { QueryResult } from "pg";
 
 dotenv.config();
 app.use(compression());
@@ -62,10 +63,14 @@ app.post("/registration.json", (req, res) => {
 app.post("/login.json", (req, res) => {
     db.getUserByEmail(req.body.email)
         .then((entry) => {
+            const userId = entry.rows[0].id;
             db.authenticateUser(entry.rows[0].password, req.body.password).then(
                 (authenticated) => {
                     if (authenticated) {
-                        res.json({ success: true });
+                        req.session.userId = userId;
+                        res.json({
+                            success: true,
+                        });
                     } else {
                         //password does not match
                         res.json({ success: false });
@@ -100,7 +105,7 @@ app.post("/reset1", (req, res) => {
 
 app.post("/reset2", (req, res) => {
     const { email, verificationCode, newPassword } = req.body;
-    db.checkVerificationCode(email).then((entry) => {
+    db.checkVerificationCode(email).then((entry: QueryResult) => {
         if (entry.rows[0].code) {
             const trueCode = entry.rows[0].code;
             if (trueCode === verificationCode) {

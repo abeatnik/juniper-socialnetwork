@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import Registration from "../Registration/index";
+import Registration from "./Registration/index";
+import Login from "./Login/index";
 
 export default class Welcome extends Component {
     render() {
@@ -8,10 +9,14 @@ export default class Welcome extends Component {
             <>
                 <h2>Welcome</h2>
                 <BrowserRouter>
-                    <Route exact path="/">
-                        <Registration />
-                    </Route>
-                    <Route path="/login">Login here</Route>
+                    <div>
+                        <Route exact path="/">
+                            <Registration />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                    </div>
                 </BrowserRouter>
             </>
         );
