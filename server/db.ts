@@ -27,7 +27,7 @@ export const insertUser = (user: RegistrationTypes.NewUser) => {
         .catch((err: Error) => console.log(err));
 };
 
-const hashPassword = (password: string) => {
+export const hashPassword = (password: string) => {
     return bcrypt.genSalt().then((salt: string) => bcrypt.hash(password, salt));
 };
 
@@ -45,4 +45,26 @@ export const getUserInfo = (userId: string) => {
 
 export const authenticateUser = (hash: string, password: string) => {
     return bcrypt.compare(password, hash);
+};
+
+export const storeVerificationCode = (email: string, code: string) => {
+    const sql = `INSERT INTO verification_codes (user_email, code)
+                VALUES ($1, $2)
+                RETURNING *;`;
+    return db.query(sql, [email, code]);
+};
+
+export const checkVerificationCode = (email: string) => {
+    const sql = `SELECT code FROM verification_codes WHERE user_email=$1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';`;
+    return db.query(sql, [email]);
+};
+
+export const deleteVerificationCode = (code: string) => {
+    const sql = `DELETE FROM verification_codes WHERE code=$1;`;
+    return db.query(sql, code);
+};
+
+export const updateUserPassword = (email: string, hash: string) => {
+    const sql = `UPDATE users SET password=$2 WHERE email=$1;`;
+    return db.query(sql, [email, hash]);
 };
