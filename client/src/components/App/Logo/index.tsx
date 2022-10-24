@@ -12,7 +12,12 @@ export default class Logo extends Component<LogoProps, LogoState> {
     render(): JSX.Element {
         return (
             <>
-                <p>Hello</p>
+                <div className="logo">
+                    <img
+                        src="/assets/astronomy-planet-rings-svgrepo-com.svg"
+                        alt="logo"
+                    />
+                </div>
             </>
         );
     }

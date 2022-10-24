@@ -7,10 +7,11 @@ const DATABASE_URL = process.env.DATABASE_URL;
 const db = spicedPg(DATABASE_URL);
 import { DBTypes } from "./db-types";
 import { RegistrationTypes } from "../client/src/components/Welcome/Registration/registration-types";
+import { stringMap } from "aws-sdk/clients/backup";
 
 export const insertUser = (user: RegistrationTypes.NewUser) => {
     const sql = `
-    INSERT INTO users (first_name, last_name, email, password)
+    INSERT INTO users (firstname, lastname, email, password)
     VALUES ($1, $2, $3, $4)
     RETURNING *;
     `;
@@ -38,13 +39,18 @@ export const getUserByEmail = (email: string): Promise<QueryResult> => {
     return db.query(sql, [email]);
 };
 
-export const getUserInfo = (userId: string) => {
-    const sql = `SELECT last_name AS lastname, first_name AS firstname, email, age, city, url FROM users JOIN user_profiles ON users.id=user_profiles.user_id WHERE users.id=$1;`;
+export const getUserInfo = (userId: number) => {
+    const sql = `SELECT lastname, firstname, email, url FROM users WHERE users.id=$1;`;
     return db.query(sql, [userId]);
 };
 
 export const authenticateUser = (hash: string, password: string) => {
     return bcrypt.compare(password, hash);
+};
+
+export const insertProfilePic = (url: string, userId: number) => {
+    const sql = `UPDATE users SET url=$1 WHERE id=$2;`;
+    return db.query(sql, [url, userId]);
 };
 
 export const storeVerificationCode = (email: string, code: string) => {
@@ -57,11 +63,6 @@ export const storeVerificationCode = (email: string, code: string) => {
 export const checkVerificationCode = (email: string) => {
     const sql = `SELECT * FROM verification_codes WHERE user_email=$1 AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY created_at DESC LIMIT 1;`;
     return db.query(sql, [email]);
-};
-
-export const deleteVerificationCode = (code: string) => {
-    const sql = `DELETE FROM verification_codes WHERE code=$1;`;
-    return db.query(sql, code);
 };
 
 export const updateUserPassword = (email: string, hash: string) => {

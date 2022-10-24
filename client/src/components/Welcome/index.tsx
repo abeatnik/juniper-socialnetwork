@@ -3,14 +3,15 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Registration from "./Registration/index";
 import Login from "./Login/index";
 import ResetPassword from "./ResetPassword";
+import "./style.css";
 
 export default class Welcome extends Component {
     render() {
         return (
             <>
-                <h2>Welcome</h2>
+                <div className="header"></div>
                 <BrowserRouter>
-                    <div>
+                    <div className="welcome-main">
                         <Route exact path="/">
                             <Registration />
                         </Route>
@@ -22,6 +23,7 @@ export default class Welcome extends Component {
                         </Route>
                     </div>
                 </BrowserRouter>
+                <div className="footer"></div>
             </>
         );
     }

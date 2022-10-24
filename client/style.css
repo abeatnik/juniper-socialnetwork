@@ -1,3 +1,36 @@
-body {
-    background-color: ghostwhite;
+* {
+    font-family: Ranade-Regular;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 100px 1fr 80px;
+}
+
+@font-face {
+    font-family: Ranade-Bold;
+    src: url("/assets/Ranade-Bold.otf");
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Ranade-Regular;
+    src: url("/assets/Ranade-Regular.otf");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Ranade-Thin;
+    src: url("/assets/Ranade-Thin.otf");
+    font-weight: 100;
+    font-display: swap;
+    font-style: normal;
 }

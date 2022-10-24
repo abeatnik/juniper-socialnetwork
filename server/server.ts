@@ -8,6 +8,7 @@ import * as db from "./db";
 import * as dotenv from "dotenv";
 import cryptoRandomString from "crypto-random-string";
 import { QueryResult } from "pg";
+import { uploader, s3Uploader } from "./middleware";
 
 dotenv.config();
 app.use(compression());
@@ -20,20 +21,13 @@ app.use(
         signed: false,
     })
 );
-app.use(
-    Helmet({
-        contentSecurityPolicy: {
-            useDefaults: true,
-            directives: {
-                "script-src": [
-                    "'self'",
-                    "https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js",
-                ],
-                "style-src": null,
-            },
-        },
-    })
-);
+
+//can't use contentSecurityPolicy feature bc I don't know how to set an exception, not only for a specific link but a link that starts with: https://s3.amazonaws.com/spicedling
+// app.use(
+//     Helmet({
+//         contentSecurityPolicy: false,
+//     })
+// );
 
 app.use((req, res, next) => {
     console.log("---------------------");
@@ -114,7 +108,6 @@ app.post("/reset2", (req, res) => {
                     .then((newHash) => {
                         db.updateUserPassword(email, newHash)
                             .then(() => {
-                                db.deleteVerificationCode(code);
                                 res.json({ success: true });
                             })
                             .catch(() => res.json({ success: false }));
@@ -129,10 +122,25 @@ app.post("/reset2", (req, res) => {
     });
 });
 
+app.post("/profile-pic", uploader.single("file"), s3Uploader, (req, res) => {
+    const { filename } = req.file;
+    const userId = parseInt(req.session.userId);
+    const url = `https://s3.amazonaws.com/spicedling/${filename}`;
+    db.insertProfilePic(url, userId)
+        .then(res.json({ success: true, profileUrl: url }))
+        .catch((err: Error) => console.log(err));
+});
+
 app.get("/user/id.json", function (req, res) {
-    res.json({
-        userId: req.session.userId,
-    });
+    if (req.session.userId) {
+        const userId = req.session.userId;
+        db.getUserInfo(parseInt(userId)).then((entry: QueryResult) => {
+            const { firstname, lastname, url } = entry.rows[0];
+            res.json({ userData: { firstname, lastname, url }, userId });
+        });
+    } else {
+        res.json({ userId: "" });
+    }
 });
 
 app.get("*", function (req, res): void {
