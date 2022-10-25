@@ -1,0 +1,10 @@
+.logo-small .logo {
+    height: 80px;
+    width: 80px;
+    margin: 10px;
+}
+
+.logo-small .logo img {
+    height: 100%;
+    object-fit: contain;
+}

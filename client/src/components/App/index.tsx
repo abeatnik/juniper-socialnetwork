@@ -2,6 +2,7 @@ import { Component } from "react";
 import Logo from "./Logo";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
+import Profile from "./Profile";
 
 interface AppProps {
     userId: number;
@@ -15,14 +16,13 @@ interface AppState {
         lastname: string;
     };
 }
-
 export default class App extends Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
         this.state = {
             showUploader: false,
             userData: {
-                url: "/assets/astronaut-exploration-planet-svgrepo-com.svg",
+                url: "",
                 firstname: "",
                 lastname: "",
             },
@@ -40,6 +40,7 @@ export default class App extends Component<AppProps, AppState> {
     }
 
     togglePopup = () => {
+        console.log("button clicked");
         this.setState({
             showUploader: !this.state.showUploader,
         });
@@ -57,16 +58,23 @@ export default class App extends Component<AppProps, AppState> {
         return (
             <>
                 <div className="header">
-                    <Logo />
-                    <ProfilePic
-                        userData={this.state.userData}
-                        togglePopup={this.togglePopup}
-                    />
+                    <div className="logo-small">
+                        <Logo />
+                    </div>
+                    <div id="profile-small">
+                        <ProfilePic
+                            userData={this.state.userData}
+                            togglePopup={this.togglePopup}
+                        />
+                    </div>
                 </div>
                 <div className="app-main">
                     {this.state.showUploader && (
                         <Uploader setProfilePic={this.setProfilePic} />
                     )}
+                    <div className="profile">
+                        <Profile userData={this.state.userData} />
+                    </div>
                 </div>
                 <div className="footer"></div>
             </>
