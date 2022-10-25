@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import "./style.css";
 
 interface BioEditorProps {
     currentBio: string;
-    saveBio: React.MouseEventHandler<HTMLButtonElement>;
+    updateBio: Function;
 }
 interface BioEditorState {
     editingMode: boolean;
@@ -17,14 +18,35 @@ export default class BioEditor extends Component<
         super(props);
         this.state = {
             editingMode: false,
-            bioDraft: this.props.currentBio,
+            bioDraft: "",
         };
     }
 
     editBio = () => {
         this.setState({
             editingMode: true,
+            bioDraft: this.props.currentBio,
         });
+    };
+
+    saveBio = () => {
+        const newBio = this.state.bioDraft;
+        fetch("/save-bio", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ newBio }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    this.props.updateBio(newBio);
+                    this.setState({
+                        editingMode: false,
+                    });
+                }
+            });
     };
 
     handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,13 +56,17 @@ export default class BioEditor extends Component<
     };
 
     render() {
+        console.log("bio editor render", this.props.currentBio);
         if (!this.state.editingMode) {
             return (
                 <>
                     {this.props.currentBio && (
-                        <button className="edit" onClick={this.editBio}>
-                            Edit
-                        </button>
+                        <>
+                            <p className="bio-text">{this.props.currentBio}</p>
+                            <button className="edit" onClick={this.editBio}>
+                                Edit
+                            </button>
+                        </>
                     )}
                     {!this.props.currentBio && (
                         <button className="add" onClick={this.editBio}>
@@ -52,17 +78,19 @@ export default class BioEditor extends Component<
         } else {
             return (
                 <>
-                    <textarea
-                        name="editbiotext"
-                        id="editbiotext"
-                        cols={20}
-                        rows={50}
-                        value={this.state.bioDraft}
-                        onChange={this.handleInputChange}
-                    ></textarea>
-                    <button className="save" onClick={this.props.saveBio}>
-                        Save
-                    </button>
+                    <div className="bio-editor">
+                        <textarea
+                            name="editbiotext"
+                            id="editbiotext"
+                            cols={30}
+                            rows={10}
+                            value={this.state.bioDraft}
+                            onChange={this.handleInputChange}
+                        ></textarea>
+                        <button className="save" onClick={this.saveBio}>
+                            Save
+                        </button>
+                    </div>
                 </>
             );
         }

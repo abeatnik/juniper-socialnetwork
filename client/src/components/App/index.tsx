@@ -14,6 +14,7 @@ interface AppState {
         url: string;
         firstname: string;
         lastname: string;
+        bio: string;
     };
 }
 export default class App extends Component<AppProps, AppState> {
@@ -25,19 +26,30 @@ export default class App extends Component<AppProps, AppState> {
                 url: "",
                 firstname: "",
                 lastname: "",
+                bio: "",
             },
         };
     }
 
     componentDidMount(): void {
-        fetch(`/user/id.json`)
+        this.updateProfile();
+    }
+
+    updateProfile = () => {
+        fetch(`/user-info`)
             .then((response) => response.json())
             .then((data) => {
                 this.setState({
                     userData: Object.assign(this.state.userData, data.userData),
                 });
             });
-    }
+    };
+
+    updateBio = (newBio: string) => {
+        this.setState({
+            userData: Object.assign(this.state.userData, { bio: newBio }),
+        });
+    };
 
     togglePopup = () => {
         console.log("button clicked");
@@ -55,6 +67,7 @@ export default class App extends Component<AppProps, AppState> {
     };
 
     render() {
+        console.log("App-userData ", this.state.userData);
         return (
             <>
                 <div className="header">
@@ -73,7 +86,11 @@ export default class App extends Component<AppProps, AppState> {
                         <Uploader setProfilePic={this.setProfilePic} />
                     )}
                     <div className="profile">
-                        <Profile userData={this.state.userData} />
+                        <Profile
+                            userData={this.state.userData}
+                            togglePopup={this.togglePopup}
+                            updateBio={this.updateBio}
+                        />
                     </div>
                 </div>
                 <div className="footer"></div>

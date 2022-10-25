@@ -93,7 +93,7 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
                 .then((data) => {
                     if (data.success) {
                         //userId....
-                        location.reload();
+                        location.href = "/";
                     } else {
                         window.alert("Login failed");
                         this.setState({

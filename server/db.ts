@@ -40,7 +40,7 @@ export const getUserByEmail = (email: string): Promise<QueryResult> => {
 };
 
 export const getUserInfo = (userId: number) => {
-    const sql = `SELECT lastname, firstname, email, url FROM users WHERE users.id=$1;`;
+    const sql = `SELECT lastname, firstname, email, url, bio FROM users WHERE users.id=$1;`;
     return db.query(sql, [userId]);
 };
 
@@ -51,6 +51,11 @@ export const authenticateUser = (hash: string, password: string) => {
 export const insertProfilePic = (url: string, userId: number) => {
     const sql = `UPDATE users SET url=$1 WHERE id=$2;`;
     return db.query(sql, [url, userId]);
+};
+
+export const insertProfileBio = (bio: string, userId: number) => {
+    const sql = `UPDATE users SET bio=$1 WHERE id=$2;`;
+    return db.query(sql, [bio, userId]);
 };
 
 export const storeVerificationCode = (email: string, code: string) => {

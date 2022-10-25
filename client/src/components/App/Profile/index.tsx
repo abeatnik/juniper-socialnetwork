@@ -7,25 +7,21 @@ interface ProfileProps {
         url: string;
         firstname: string;
         lastname: string;
+        bio: string;
     };
     togglePopup: React.MouseEventHandler<HTMLButtonElement>;
+    updateBio: Function;
 }
 
-interface ProfileState {
-    currentBio: string;
-}
+interface ProfileState {}
 
 export default class Profile extends Component<ProfileProps, ProfileState> {
     constructor(props: ProfileProps) {
         super(props);
-        this.state = {
-            currentBio: "",
-        };
     }
 
-    saveBio = (e: React.MouseEvent<HTMLButtonElement>) => {};
-
     render() {
+        console.log("bioprop-profile", this.props.userData.bio);
         return (
             <>
                 <ProfilePic
@@ -38,8 +34,8 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
                         this.props.userData.lastname}
                 </h2>
                 <BioEditor
-                    currentBio={this.state.currentBio}
-                    saveBio={this.saveBio}
+                    currentBio={this.props.userData.bio}
+                    updateBio={this.props.updateBio}
                 />
             </>
         );

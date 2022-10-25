@@ -7,7 +7,7 @@ export namespace DBTypes {
         userId: string;
     }
 
-    export interface newUser {
+    export interface NewUser {
         firstname: string;
         lastname: string;
         email: string;

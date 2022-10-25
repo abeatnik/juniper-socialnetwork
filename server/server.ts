@@ -43,7 +43,6 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
 
 app.post("/registration.json", (req, res) => {
-    console.log(req.body);
     db.insertUser(req.body)
         .then((entry) => {
             req.session.userId = entry.rows[0].id;
@@ -98,7 +97,6 @@ app.post("/reset1", (req, res) => {
 });
 
 app.post("/reset2", (req, res) => {
-    console.log(req.body);
     const { email, code, newPassword } = req.body;
     db.checkVerificationCode(email).then((entry: QueryResult) => {
         if (entry.rows[0].code) {
@@ -131,12 +129,37 @@ app.post("/profile-pic", uploader.single("file"), s3Uploader, (req, res) => {
         .catch((err: Error) => console.log(err));
 });
 
-app.get("/user/id.json", function (req, res) {
+app.post("/save-bio", (req, res) => {
+    const { userId } = req.session;
+    const { newBio } = req.body;
+    db.insertProfileBio(newBio, parseInt(userId))
+        .then(() => {
+            res.json({
+                success: true,
+            });
+        })
+        .catch((err: Error) => {
+            res.json({
+                success: false,
+            });
+        });
+});
+
+app.get("/user/id.json", (req, res) => {
     if (req.session.userId) {
-        const userId = req.session.userId;
+        const { userId } = req.session;
+        res.json({ userId });
+    } else {
+        res.json({ userId: "" });
+    }
+});
+
+app.get("/user-info", (req, res) => {
+    if (req.session.userId) {
+        const { userId } = req.session;
         db.getUserInfo(parseInt(userId)).then((entry: QueryResult) => {
-            const { firstname, lastname, url } = entry.rows[0];
-            res.json({ userData: { firstname, lastname, url }, userId });
+            const { firstname, lastname, url, bio } = entry.rows[0];
+            res.json({ userData: { firstname, lastname, url, bio }, userId });
         });
     } else {
         res.json({ userId: "" });
