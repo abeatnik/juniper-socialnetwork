@@ -1,0 +1,50 @@
+.registration-div,
+.login-div,
+.reset-pw-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registration-div h2,
+.login-div h2,
+.reset-pw-div h2 {
+    color: #9ce44a;
+}
+
+.registration-div form,
+.login-div form,
+.reset-pw-div form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-div form button,
+.login-div form button,
+.reset-pw-div form button {
+    background-color: #9ce44a;
+    border: none;
+    color: black;
+    width: 50%;
+    align-self: center;
+    margin-top: 50px;
+}
+
+.pw-info {
+    font-size: 0.8em;
+    margin-top: 10px;
+    width: 90%;
+    align-self: center;
+    text-align: justify;
+}
+
+.registration-div p,
+.login-div p,
+.reset-pw-div p {
+    margin-top: 20px;
+}
+
+.error {
+    color: #9f1241;
+}

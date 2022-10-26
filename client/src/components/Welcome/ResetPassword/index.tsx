@@ -30,60 +30,70 @@ export default class ResetPassword extends Component<
         if (!this.state.userExists) {
             return (
                 <>
-                    <h2>Reset Password</h2>
-                    <form name="send" onSubmit={this.handleSubmit1}>
-                        <p>Please enter your registration email.</p>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="email"
-                            value={this.state.email}
-                            onChange={this.handleInputChange}
-                        />
-                        <button type="submit">Submit</button>
-                    </form>
+                    <div className="reset-pw-div">
+                        <h2>Reset Password</h2>
+                        <form name="send" onSubmit={this.handleSubmit1}>
+                            <p>Please enter your registration email.</p>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="email"
+                                value={this.state.email}
+                                onChange={this.handleInputChange}
+                            />
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
                 </>
             );
         } else if (this.state.userExists && !this.state.updated) {
             return (
                 <>
-                    <h2>Reset Password</h2>
-                    <form onSubmit={this.handleSubmit2}>
-                        <p>Please enter the verification code.</p>
-                        <input
-                            type="text"
-                            name="code"
-                            placeholder="verification code"
-                            value={this.state.code}
-                            onChange={this.handleInputChange}
-                        />
-                        <label htmlFor="password">Enter a new Password</label>
-                        <input
-                            type="password"
-                            name="newPassword"
-                            value={this.state.newPassword}
-                            onChange={this.handleInputChange}
-                        />
-                        {this.state.errorMessage && (
-                            <p className="error">{this.state.errorMessage}</p>
-                        )}
-                        <p className="pw-info">
-                            Your password should contain at least one lower- and
-                            one upper-case-letter, one number and have a minimum
-                            length of 6 characters
-                        </p>
-                        <button type="submit">Update Password</button>
-                    </form>
+                    <div className="reset-pw-div">
+                        <h2>Reset Password</h2>
+                        <form onSubmit={this.handleSubmit2}>
+                            <p>Please enter the verification code.</p>
+                            <input
+                                type="text"
+                                name="code"
+                                placeholder="verification code"
+                                value={this.state.code}
+                                onChange={this.handleInputChange}
+                            />
+                            <label htmlFor="password">
+                                Enter a new Password
+                            </label>
+                            <input
+                                type="password"
+                                name="newPassword"
+                                value={this.state.newPassword}
+                                onChange={this.handleInputChange}
+                            />
+                            {this.state.errorMessage && (
+                                <p className="error">
+                                    {this.state.errorMessage}
+                                </p>
+                            )}
+                            <p className="pw-info">
+                                Your password should contain at least one lower-
+                                and one upper-case-letter, one number and have a
+                                minimum length of 6 characters
+                            </p>
+                            <button type="submit">Update Password</button>
+                        </form>
+                    </div>
                 </>
             );
         } else if (this.state.userExists && this.state.updated) {
             return (
                 <>
-                    <p>Success! Your password has been updated.</p>
-                    <p>
-                        You can now <Link to="/login">log in</Link> with your
-                        new password.
-                    </p>
+                    <div className="reset-pw-div">
+                        <p>Success! Your password has been updated.</p>
+                        <p>
+                            You can now <Link to="/login">log in</Link> with
+                            your new password.
+                        </p>
+                    </div>
                 </>
             );
         }

@@ -22,41 +22,47 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
     render(): JSX.Element {
         return (
             <>
-                <h2>Login</h2>
-                <form onSubmit={this.handleSubmit}>
-                    {this.state.message && (
-                        <p className="errorMessage">{this.state.message}</p>
-                    )}
-                    <label htmlFor="email">E-Mail </label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={this.state.email}
-                        onChange={this.handleInputChange}
-                    />
-                    {this.state.showError && !this.state.errors.email && (
-                        <p className="error">
-                            Please enter your e-Mail address.
-                        </p>
-                    )}
-                    <label htmlFor="password">Password </label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={this.state.password}
-                        onChange={this.handleInputChange}
-                    />
-                    {this.state.showError && !this.state.errors.password && (
-                        <p className="error">Please enter your password.</p>
-                    )}
-                    <button type="submit">Login</button>
-                </form>
-                <p>
-                    Forgot your password? Click <Link to="/reset">here</Link>.
-                </p>
-                <p>
-                    Not yet a user? Please <Link to="/">sign up</Link>.
-                </p>
+                <div className="login-div">
+                    <h2>Login</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        {this.state.message && (
+                            <p className="errorMessage">{this.state.message}</p>
+                        )}
+                        <label htmlFor="email">E-Mail </label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.handleInputChange}
+                        />
+                        {this.state.showError && !this.state.errors.email && (
+                            <p className="error">
+                                Please enter your e-Mail address.
+                            </p>
+                        )}
+                        <label htmlFor="password">Password </label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleInputChange}
+                        />
+                        {this.state.showError &&
+                            !this.state.errors.password && (
+                                <p className="error">
+                                    Please enter your password.
+                                </p>
+                            )}
+                        <button type="submit">Login</button>
+                    </form>
+                    <p>
+                        Forgot your password? Click{" "}
+                        <Link to="/reset">here</Link>.
+                    </p>
+                    <p>
+                        Not yet a user? Please <Link to="/">sign up</Link>.
+                    </p>
+                </div>
             </>
         );
     }

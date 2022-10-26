@@ -1,2 +1,40 @@
+.welcome-grid {
+    display: flex;
+    align-items: space-around;
+}
+
+.intro {
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.intro h1 {
+    color: #9ce44a;
+}
+
+.intro p {
+    color: #9ce44a;
+    margin-top: 20px;
+    width: 60%;
+    text-align: center;
+}
+
+.intro .welcome-logo .logo {
+    height: 40vh;
+}
+
+.intro .welcome-logo img {
+    height: 100%;
+    object-fit: contain;
+}
+
 .welcome-main {
+    border: 2px solid #9ce44a;
+    border-radius: 9px;
+    width: 30vw;
+    padding: 10px;
+    margin-right: 20px;
+    margin-bottom: 80px;
 }
