@@ -10,7 +10,6 @@ export default class Uploader extends React.PureComponent<UploaderProps> {
     handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const file = this.fileInput.current.files[0];
-        console.log(file);
         const formData = new FormData();
         formData.append("file", file);
         fetch("/profile-pic", {

@@ -11,19 +11,14 @@ import { stringMap } from "aws-sdk/clients/backup";
 
 export const insertUser = (user: RegistrationTypes.NewUser) => {
     const sql = `
-    INSERT INTO users (firstname, lastname, email, password)
+    INSERT INTO users (first, last, email, password)
     VALUES ($1, $2, $3, $4)
     RETURNING *;
     `;
 
     return hashPassword(user.password)
         .then((hash: string) => {
-            return db.query(sql, [
-                user.firstname,
-                user.lastname,
-                user.email,
-                hash,
-            ]);
+            return db.query(sql, [user.first, user.last, user.email, hash]);
         })
         .catch((err: Error) => console.log(err));
 };
@@ -40,7 +35,7 @@ export const getUserByEmail = (email: string): Promise<QueryResult> => {
 };
 
 export const getUserInfo = (userId: number) => {
-    const sql = `SELECT lastname, firstname, email, url, bio FROM users WHERE users.id=$1;`;
+    const sql = `SELECT last, first, email, url, bio FROM users WHERE users.id=$1;`;
     return db.query(sql, [userId]);
 };
 
@@ -73,4 +68,20 @@ export const checkVerificationCode = (email: string) => {
 export const updateUserPassword = (email: string, hash: string) => {
     const sql = `UPDATE users SET password=$2 WHERE email=$1;`;
     return db.query(sql, [email, hash]);
+};
+
+export const getRecentlyAdded = () => {
+    return db.query(
+        `SELECT first, last, id, url, bio FROM users ORDER BY id DESC LIMIT 3;`
+    );
+};
+
+export const findFriends = (query: string) => {
+    const sql = `SELECT first, last, id, url, bio FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT 6;`;
+    return db.query(sql, [query + "%"]);
+};
+
+export const findFriendsFullName = (first: string, last: string) => {
+    const sql = `SELECT first, last, id, url, bio FROM users WHERE first ILIKE $1 AND last ILIKE $2 LIMIT 6;`;
+    return db.query(sql, [first + "%", last + "%"]);
 };

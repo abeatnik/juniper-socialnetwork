@@ -13,14 +13,14 @@ export default class Registration extends Component<
         super(props);
 
         this.state = {
-            firstname: "",
-            lastname: "",
+            first: "",
+            last: "",
             email: "",
             password: "",
             errors: {
                 //how to access the object properties???
-                firstname: false,
-                lastname: false,
+                first: false,
+                last: false,
                 email: false,
                 password: false,
             },
@@ -37,28 +37,28 @@ export default class Registration extends Component<
                         {this.state.message && (
                             <p className="errorMessage">{this.state.message}</p>
                         )}
-                        <label htmlFor="firstname">First Name</label>
+                        <label htmlFor="first">First Name</label>
                         <input
                             type="text"
-                            name="firstname"
-                            value={this.state.firstname}
+                            name="first"
+                            value={this.state.first}
                             onChange={this.handleInputChange}
                         />
                         {this.state.showError &&
-                            !this.state.errors.firstname && (
+                            !this.state.errors.first && (
                                 <p className="error">
                                     Please enter your First Name
                                 </p>
                             )}
-                        <label htmlFor="lastname">Last Name</label>
+                        <label htmlFor="last">Last Name</label>
                         <input
                             type="text"
-                            name="lastname"
-                            value={this.state.lastname}
+                            name="last"
+                            value={this.state.last}
                             onChange={this.handleInputChange}
                         />
                         {this.state.showError &&
-                            !this.state.errors.lastname && (
+                            !this.state.errors.last && (
                                 <p className="error">
                                     Please enter your Last Name
                                 </p>
@@ -138,8 +138,8 @@ export default class Registration extends Component<
         );
         if (complete) {
             const newUser: RegistrationTypes.NewUser = {
-                firstname: this.state.firstname.trim(),
-                lastname: this.state.lastname.trim(),
+                first: this.state.first.trim(),
+                last: this.state.last.trim(),
                 email: this.state.email.trim(),
                 password: this.state.password,
             };
@@ -157,14 +157,14 @@ export default class Registration extends Component<
                     } else {
                         window.alert("Registration failed");
                         this.setState({
-                            firstname: "",
-                            lastname: "",
+                            first: "",
+                            last: "",
                             email: "",
                             password: "",
                             errors: {
                                 //how to access the object properties???
-                                firstname: false,
-                                lastname: false,
+                                first: false,
+                                last: false,
                                 email: false,
                                 password: false,
                             },

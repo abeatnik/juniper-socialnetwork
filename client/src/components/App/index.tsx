@@ -3,6 +3,9 @@ import Logo from "./Logo";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import Profile from "./Profile";
+import { BrowserRouter, Route } from "react-router-dom";
+import RecentUsers from "./RecentUsers";
+import FindFriends from "./FindFriends";
 
 interface AppProps {
     userId: number;
@@ -12,8 +15,8 @@ interface AppState {
     showUploader: boolean;
     userData: {
         url: string;
-        firstname: string;
-        lastname: string;
+        first: string;
+        last: string;
         bio: string;
     };
 }
@@ -24,8 +27,8 @@ export default class App extends Component<AppProps, AppState> {
             showUploader: false,
             userData: {
                 url: "",
-                firstname: "",
-                lastname: "",
+                first: "",
+                last: "",
                 bio: "",
             },
         };
@@ -85,13 +88,21 @@ export default class App extends Component<AppProps, AppState> {
                     {this.state.showUploader && (
                         <Uploader setProfilePic={this.setProfilePic} />
                     )}
-                    <div className="profile">
-                        <Profile
-                            userData={this.state.userData}
-                            togglePopup={this.togglePopup}
-                            updateBio={this.updateBio}
-                        />
-                    </div>
+                    <BrowserRouter>
+                        <Route exact path="/">
+                            <div className="profile">
+                                <Profile
+                                    userData={this.state.userData}
+                                    togglePopup={this.togglePopup}
+                                    updateBio={this.updateBio}
+                                />
+                            </div>
+                        </Route>
+                        <Route exact path="/users">
+                            <FindFriends />
+                            {/* <RecentUsers /> */}
+                        </Route>
+                    </BrowserRouter>
                 </div>
                 <div className="footer"></div>
             </>

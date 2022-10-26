@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
     id SERIAL primary key, 
-    firstname VARCHAR(255) NOT NULL CHECK(firstname != ''), 
-    lastname VARCHAR(255) NOT NULL CHECK(lastname != ''), 
+    first VARCHAR(255) NOT NULL CHECK(first != ''), 
+    last VARCHAR(255) NOT NULL CHECK(last != ''), 
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
     url VARCHAR(255),

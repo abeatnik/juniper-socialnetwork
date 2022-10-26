@@ -5,6 +5,7 @@ import Login from "./Login/index";
 import ResetPassword from "./ResetPassword";
 import Logo from "../App/Logo";
 import "./style.css";
+import SearchFriends from "../App/FindFriends";
 
 export default class Welcome extends Component {
     render() {

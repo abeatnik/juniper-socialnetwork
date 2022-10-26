@@ -5,8 +5,8 @@ import BioEditor from "../BioEditor";
 interface ProfileProps {
     userData: {
         url: string;
-        firstname: string;
-        lastname: string;
+        first: string;
+        last: string;
         bio: string;
     };
     togglePopup: React.MouseEventHandler<HTMLButtonElement>;
@@ -29,9 +29,9 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
                     togglePopup={this.props.togglePopup}
                 />
                 <h2>
-                    {this.props.userData.firstname +
+                    {this.props.userData.first +
                         " " +
-                        this.props.userData.lastname}
+                        this.props.userData.last}
                 </h2>
                 <BioEditor
                     currentBio={this.props.userData.bio}

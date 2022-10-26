@@ -1,29 +1,21 @@
-.registration-div,
-.login-div,
-.reset-pw-div {
+.welcome-main {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.registration-div h2,
-.login-div h2,
-.reset-pw-div h2 {
-    color: #9ce44a;
+.welcome-main h2 {
+    color: #aaaaaa;
 }
 
-.registration-div form,
-.login-div form,
-.reset-pw-div form {
+.welcome-main form {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
 }
 
-.registration-div form button,
-.login-div form button,
-.reset-pw-div form button {
-    background-color: #9ce44a;
+.welcome-main form button {
+    background-color: #aaaaaa;
     border: none;
     color: black;
     width: 50%;
@@ -31,7 +23,7 @@
     margin-top: 50px;
 }
 
-.pw-info {
+.welcome-main .pw-info {
     font-size: 0.8em;
     margin-top: 10px;
     width: 90%;
@@ -39,12 +31,10 @@
     text-align: justify;
 }
 
-.registration-div p,
-.login-div p,
-.reset-pw-div p {
+.welcome-main p {
     margin-top: 20px;
 }
 
-.error {
+.welcome-main .error {
     color: #9f1241;
 }

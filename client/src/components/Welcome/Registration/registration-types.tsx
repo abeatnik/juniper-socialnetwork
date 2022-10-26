@@ -1,12 +1,12 @@
 export namespace RegistrationTypes {
     export interface State {
-        firstname: string;
-        lastname: string;
+        first: string;
+        last: string;
         email: string;
         password: string;
         errors: {
-            firstname: boolean;
-            lastname: boolean;
+            first: boolean;
+            last: boolean;
             email: boolean;
             password: boolean;
         };
@@ -15,8 +15,8 @@ export namespace RegistrationTypes {
     }
 
     export interface NewUser {
-        firstname: string;
-        lastname: string;
+        first: string;
+        last: string;
         email: string;
         password: string;
     }

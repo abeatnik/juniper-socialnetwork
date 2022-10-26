@@ -6,19 +6,19 @@
     color: white;
 }
 
+input {
+    background-color: #5240ac;
+}
+
 main {
     display: grid;
     min-height: 100vh;
     grid-template-rows: 100px 1fr 80px;
-    background-image: url("/assets/space-background.webp");
-    background-size: 100vw;
-    background-blend-mode: color-burn;
-    background-color: #292932;
+    background-color: #5240ac;
 }
 
 .header {
     height: 100px;
-    /* border-bottom: 1px ridge #9ce44a; */
     display: flex;
     justify-content: space-between;
     width: 100vw;

@@ -11,11 +11,11 @@
 }
 
 .intro h1 {
-    color: #9ce44a;
+    color: #aaaaaa;
 }
 
 .intro p {
-    color: #9ce44a;
+    color: #aaaaaa;
     margin-top: 20px;
     width: 60%;
     text-align: center;
@@ -31,10 +31,11 @@
 }
 
 .welcome-main {
-    border: 2px solid #9ce44a;
+    border: 2px solid #aaaaaa;
     border-radius: 9px;
     width: 30vw;
     padding: 10px;
     margin-right: 20px;
     margin-bottom: 80px;
+    background-color: #a59f2e;
 }

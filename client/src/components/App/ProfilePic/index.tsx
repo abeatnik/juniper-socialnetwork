@@ -4,8 +4,8 @@ import "./style.css";
 interface ProfilePicProps {
     userData: {
         url: string;
-        firstname: string;
-        lastname: string;
+        first: string;
+        last: string;
     };
     togglePopup: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -16,9 +16,7 @@ export default function ProfilePic(props: ProfilePicProps) {
             <button onClick={props.togglePopup}>
                 <img
                     src={props.userData.url}
-                    alt={
-                        props.userData.firstname + " " + props.userData.lastname
-                    }
+                    alt={props.userData.first + " " + props.userData.last}
                 />
             </button>
         </div>

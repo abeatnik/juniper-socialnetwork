@@ -6,9 +6,11 @@ import cookieSession from "cookie-session";
 import Helmet from "helmet";
 import * as db from "./db";
 import * as dotenv from "dotenv";
-import cryptoRandomString from "crypto-random-string";
+import cryptoRandomString, { async } from "crypto-random-string";
 import { QueryResult } from "pg";
 import { uploader, s3Uploader } from "./middleware";
+import { User } from "../client/src/components/component-interfaces";
+import { addSyntheticLeadingComment } from "typescript";
 
 dotenv.config();
 app.use(compression());
@@ -145,6 +147,40 @@ app.post("/save-bio", (req, res) => {
         });
 });
 
+app.get("/recently-added", (req, res) => {
+    db.getRecentlyAdded()
+        .then((entries: QueryResult) => {
+            const recentlyAdded: User[] = entries.rows;
+            res.json(recentlyAdded);
+        })
+        .catch((err: Error) => console.log(err));
+});
+
+app.get("/find/:query", (req, res) => {
+    const searchString = req.params.query;
+    const searchArr = searchString.split("-");
+    console.log("searchArr", searchArr);
+    if (searchArr.length === 1) {
+        db.findFriends(searchArr[0])
+            .then((entries: QueryResult) => {
+                const findFriendsResults: User[] = entries.rows;
+                findFriendsResults.length === 0
+                    ? res.json({ success: false })
+                    : res.json({ success: true, findFriendsResults });
+            })
+            .catch();
+    } else {
+        db.findFriendsFullName(searchArr[0], searchArr[1])
+            .then((entries: QueryResult) => {
+                const findFriendsResults: User[] = entries.rows;
+                findFriendsResults.length === 0
+                    ? res.json({ success: false })
+                    : res.json({ success: true, findFriendsResults });
+            })
+            .catch();
+    }
+});
+
 app.get("/user/id.json", (req, res) => {
     if (req.session.userId) {
         const { userId } = req.session;
@@ -158,8 +194,8 @@ app.get("/user-info", (req, res) => {
     if (req.session.userId) {
         const { userId } = req.session;
         db.getUserInfo(parseInt(userId)).then((entry: QueryResult) => {
-            const { firstname, lastname, url, bio } = entry.rows[0];
-            res.json({ userData: { firstname, lastname, url, bio }, userId });
+            const { first, last, url, bio } = entry.rows[0];
+            res.json({ userData: { first, last, url, bio }, userId });
         });
     } else {
         res.json({ userId: "" });
