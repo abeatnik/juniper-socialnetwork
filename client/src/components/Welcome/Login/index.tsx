@@ -1,87 +1,48 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { LoginTypes } from "./login-types";
 
-interface LoginProps {}
+interface UserAuthInfo {
+    email: string;
+    password: string;
+}
 
-export default class Login extends Component<LoginProps, LoginTypes.State> {
-    constructor(props: LoginProps) {
-        super(props);
+interface UserAuthError {
+    email: boolean;
+    password: boolean;
+}
 
-        this.state = {
-            email: "",
-            password: "",
-            errors: {
-                email: false,
-                password: false,
-            },
-            showError: false,
-        };
-    }
+const Login = () => {
+    const [userAuthInfo, setUserAuthInfo] = useState<UserAuthInfo>({
+        email: "",
+        password: "",
+    });
 
-    render(): JSX.Element {
-        return (
-            <>
-                <div className="login-div">
-                    <h2>Login</h2>
-                    <form onSubmit={this.handleSubmit}>
-                        {this.state.message && (
-                            <p className="errorMessage">{this.state.message}</p>
-                        )}
-                        <label htmlFor="email">E-Mail </label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={this.state.email}
-                            onChange={this.handleInputChange}
-                        />
-                        {this.state.showError && !this.state.errors.email && (
-                            <p className="error">
-                                Please enter your e-Mail address.
-                            </p>
-                        )}
-                        <label htmlFor="password">Password </label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.handleInputChange}
-                        />
-                        {this.state.showError &&
-                            !this.state.errors.password && (
-                                <p className="error">
-                                    Please enter your password.
-                                </p>
-                            )}
-                        <button type="submit">Login</button>
-                    </form>
-                    <p>
-                        Forgot your password? Click{" "}
-                        <Link to="/reset">here</Link>.
-                    </p>
-                    <p>
-                        Not yet a user? Please <Link to="/">sign up</Link>.
-                    </p>
-                </div>
-            </>
-        );
-    }
+    const [errorObject, setErrorObject] = useState<UserAuthError>({
+        email: false,
+        password: false,
+    });
 
-    handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [showError, setShowError] = useState<boolean>(false);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name: string = e.target.name;
-        const value: string = e.target.value;
-        const exists: boolean = !!value;
-        this.setState({
-            // bc not all the keys are optional i always need to set them. So I deconstruct and set the one that I want
-            errors: Object.assign(this.state.errors, { [name]: exists }),
-            ...this.state,
+        const value: string =
+            name !== "password" ? e.target.value.trim() : e.target.value;
+
+        setUserAuthInfo({
+            ...userAuthInfo,
             [name]: value,
+        });
+
+        setErrorObject({
+            ...errorObject,
+            [name]: !!value,
         });
     };
 
-    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const complete: boolean = Object.values(this.state.errors).every(
+        const complete: boolean = Object.values(errorObject).every(
             (value) => value === true
         );
         if (complete) {
@@ -90,35 +51,70 @@ export default class Login extends Component<LoginProps, LoginTypes.State> {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    email: this.state.email.trim(),
-                    password: this.state.password,
-                }),
+                body: JSON.stringify(userAuthInfo),
             })
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        //userId....
                         location.href = "/";
                     } else {
                         window.alert("Login failed");
-                        this.setState({
+                        setUserAuthInfo({
                             email: "",
                             password: "",
-                            errors: {
-                                //how to access the object properties???
-
-                                email: false,
-                                password: false,
-                            },
-                            showError: false,
                         });
+
+                        setErrorObject({
+                            email: false,
+                            password: false,
+                        });
+
+                        setShowError(false);
                     }
                 });
         } else {
-            this.setState({
-                showError: true,
-            });
+            setShowError(true);
         }
     };
-}
+
+    return (
+        <>
+            <div className="login-div">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="email">E-Mail </label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={userAuthInfo.email}
+                        onChange={handleInputChange}
+                    />
+                    {showError && !errorObject.email && (
+                        <p className="error">
+                            Please enter your e-Mail address.
+                        </p>
+                    )}
+                    <label htmlFor="password">Password </label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={userAuthInfo.password}
+                        onChange={handleInputChange}
+                    />
+                    {showError && !errorObject.password && (
+                        <p className="error">Please enter your password.</p>
+                    )}
+                    <button type="submit">Login</button>
+                </form>
+                <p>
+                    Forgot your password? Click <Link to="/reset">here</Link>.
+                </p>
+                <p>
+                    Not yet a user? Please <Link to="/">sign up</Link>.
+                </p>
+            </div>
+        </>
+    );
+};
+
+export default Login;

@@ -6,10 +6,10 @@ dotenv.config();
 const DATABASE_URL = process.env.DATABASE_URL;
 const db = spicedPg(DATABASE_URL);
 import { DBTypes } from "./db-types";
-import { RegistrationTypes } from "../client/src/components/Welcome/Registration/registration-types";
 import { stringMap } from "aws-sdk/clients/backup";
+import { NewUser } from "../client/src/components/component-interfaces";
 
-export const insertUser = (user: RegistrationTypes.NewUser) => {
+export const insertUser = (user: NewUser) => {
     const sql = `
     INSERT INTO users (first, last, email, password)
     VALUES ($1, $2, $3, $4)

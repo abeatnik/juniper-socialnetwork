@@ -6,10 +6,9 @@ export interface User {
     bio: string;
 }
 
-export interface UserRegistration {
-    first : string;
-    last : string;
-    password : string;
-    email : string;
+export interface NewUser {
+    first: string;
+    last: string;
+    password: string;
+    email: string;
 }
-
