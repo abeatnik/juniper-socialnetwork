@@ -10,7 +10,7 @@ interface ProfilePicProps {
     togglePopup: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function ProfilePic(props: ProfilePicProps) {
+const ProfilePic = (props: ProfilePicProps) => {
     return (
         <div className="profilePic">
             <button onClick={props.togglePopup}>
@@ -21,4 +21,6 @@ export default function ProfilePic(props: ProfilePicProps) {
             </button>
         </div>
     );
-}
+};
+
+export default ProfilePic;

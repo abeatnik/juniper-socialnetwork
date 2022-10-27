@@ -1,43 +1,25 @@
-import React, { Component } from "react";
 import ProfilePic from "../ProfilePic";
 import BioEditor from "../BioEditor";
+import { User } from "../../component-interfaces";
 
-interface ProfileProps {
-    userData: {
-        url: string;
-        first: string;
-        last: string;
-        bio: string;
-    };
+const Profile = (props: {
+    userData: User;
     togglePopup: React.MouseEventHandler<HTMLButtonElement>;
     updateBio: Function;
-}
+}) => {
+    return (
+        <>
+            <ProfilePic
+                userData={props.userData}
+                togglePopup={props.togglePopup}
+            />
+            <h2>{props.userData.first + " " + props.userData.last}</h2>
+            <BioEditor
+                currentBio={props.userData.bio}
+                updateBio={props.updateBio}
+            />
+        </>
+    );
+};
 
-interface ProfileState {}
-
-export default class Profile extends Component<ProfileProps, ProfileState> {
-    constructor(props: ProfileProps) {
-        super(props);
-    }
-
-    render() {
-        console.log("bioprop-profile", this.props.userData.bio);
-        return (
-            <>
-                <ProfilePic
-                    userData={this.props.userData}
-                    togglePopup={this.props.togglePopup}
-                />
-                <h2>
-                    {this.props.userData.first +
-                        " " +
-                        this.props.userData.last}
-                </h2>
-                <BioEditor
-                    currentBio={this.props.userData.bio}
-                    updateBio={this.props.updateBio}
-                />
-            </>
-        );
-    }
-}
+export default Profile;
