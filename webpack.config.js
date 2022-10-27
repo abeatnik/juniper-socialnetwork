@@ -8,7 +8,7 @@ module.exports = () => ({
         path.join(__dirname, "client", "style.css"),
         path.join(__dirname, "client", "src", "start.tsx"),
     ],
-    devtool: "inline-source-map",
+    devtool: "eval-source-map",
     output: {
         path: path.join(__dirname, "client", "public"),
         filename: "bundle.js",
