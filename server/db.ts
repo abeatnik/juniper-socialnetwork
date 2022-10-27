@@ -7,7 +7,10 @@ const DATABASE_URL = process.env.DATABASE_URL;
 const db = spicedPg(DATABASE_URL);
 import { DBTypes } from "./db-types";
 import { stringMap } from "aws-sdk/clients/backup";
-import { NewUser } from "../client/src/components/component-interfaces";
+import {
+    NewUser,
+    UserRelation,
+} from "../client/src/components/component-interfaces";
 
 export const insertUser = (user: NewUser) => {
     const sql = `
@@ -86,35 +89,31 @@ export const findFriendsFullName = (first: string, last: string) => {
     return db.query(sql, [first + "%", last + "%"]);
 };
 
-interface FriendReq {
-    senderId: string;
-    recipientId: string;
-    accepted: "0" | "1";
-}
-
-export const insertFriendRequest = (entry: FriendReq) => {
+export const insertFriendRequest = (
+    senderId: string,
+    recipientId: string,
+    accepted = false
+) => {
     const sql = `INSERT INTO friend_requests (sender_id, recipient_id, accepted)
         VALUES ($1, $2, $3)
         RETURNING *;`;
-    return db.query(sql, [entry.senderId, entry.recipientId, entry.accepted]);
+    return db.query(sql, [senderId, recipientId, accepted]);
 };
-
-interface UserRelation {
-    ownerId: string;
-    viewerId: string;
-}
 
 export const getFriendRequestStatus = (entry: UserRelation) => {
     const sql = `SELECT * FROM friend_requests WHERE sender_id=$1 OR sender_id=$2 AND recipient_id=$1 OR sender_id=$2;`;
     return db.query(sql, [entry.ownerId, entry.viewerId]);
 };
 
-export const cancelFriendRequest = (entry: FriendReq) => {
+export const cancelFriendRequest = (senderId: string, recipientId: string) => {
     const sql = `DELETE FROM friend_requests WHERE sender_id=$1 AND recipient_id=$2;`;
-    return db.query(sql, [entry.senderId, entry.recipientId]);
+    return db.query(sql, [senderId, recipientId]);
 };
 
-export const updateFriendRequestToAccepted = (entry: FriendReq) => {
+export const updateFriendRequestToAccepted = (
+    senderId: string,
+    recipientId: string
+) => {
     const sql = `UPDATE friend_requests SET accepted=1 WHERE sender_id=$1 AND recipient_id=$2;`;
-    return db.query(sql, [entry.senderId, entry.recipientId]);
+    return db.query(sql, [senderId, recipientId]);
 };

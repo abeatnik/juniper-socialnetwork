@@ -12,3 +12,8 @@ export interface NewUser {
     password: string;
     email: string;
 }
+
+export interface UserRelation {
+    ownerId: string;
+    viewerId: string;
+}

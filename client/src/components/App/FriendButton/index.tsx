@@ -5,9 +5,12 @@ const FriendButton = (props: { ownerId: string }) => {
         "none" | "sent" | "received" | "friend" | null
     >(null);
 
-    const [action, setAction] = useState<
-        "sendReq" | "cancelReq" | "acceptReq" | "cancelFriend" | null
-    >(null);
+    const buttonInner = {
+        none: "Send Friend Request",
+        sent: "Cancel Friend Request",
+        received: "Accept Friend Request",
+        friend: "Unfriend",
+    };
 
     useEffect(() => {
         fetch(`/relation/${props.ownerId}`)
@@ -20,74 +23,35 @@ const FriendButton = (props: { ownerId: string }) => {
             });
     }, [relation]);
 
-    const sendRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setAction("sendReq");
-        postAction();
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (relation) {
+            fetch("/change-relation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ownerId: props.ownerId,
+                    relation: relation,
+                    action: buttonInner[relation],
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        setRelation(data.newRelation);
+                    }
+                });
+        }
     };
 
-    const cancelRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setAction("cancelReq");
-        postAction();
-    };
-
-    const acceptRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setAction("acceptReq");
-        postAction();
-    };
-
-    const cancelFriendship = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setAction("cancelFriend");
-        postAction();
-    };
-
-    const postAction = () => {};
-
-    switch (relation) {
-        case null:
-            return (
-                <>
-                    <button className="friend-button">
-                        Send Friend Request
-                    </button>
-                </>
-            );
-
-        case "none":
-            return (
-                <>
-                    <button className="friend-button" onClick={sendRequest}>
-                        Send Friend Request
-                    </button>
-                </>
-            );
-        case "sent":
-            return (
-                <>
-                    <button className="friend-button" onClick={cancelRequest}>
-                        Cancel Friend Request
-                    </button>
-                </>
-            );
-        case "received":
-            return (
-                <>
-                    <button className="friend-button" onClick={acceptRequest}>
-                        Accept Friend Request
-                    </button>
-                </>
-            );
-        case "friend":
-            return (
-                <>
-                    <button
-                        className="friend-button"
-                        onClick={cancelFriendship}
-                    >
-                        Cancel Friendship
-                    </button>
-                </>
-            );
-    }
+    return (
+        <>
+            <button className="friend-button" onClick={handleClick}>
+                {relation && buttonInner[relation]}
+            </button>
+        </>
+    );
 };
 
 export default FriendButton;

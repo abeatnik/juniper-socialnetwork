@@ -9,7 +9,10 @@ import * as dotenv from "dotenv";
 import cryptoRandomString, { async } from "crypto-random-string";
 import { QueryResult } from "pg";
 import { uploader, s3Uploader } from "./middleware";
-import { User } from "../client/src/components/component-interfaces";
+import {
+    User,
+    UserRelation,
+} from "../client/src/components/component-interfaces";
 
 dotenv.config();
 app.use(compression());
@@ -222,14 +225,17 @@ app.get("/user-info", (req, res) => {
 });
 
 app.get("/relation/:owner", (req, res) => {
-    const ownerId = req.params.owner;
-    const viewerId = req.session.userId;
-    db.getFriendRequestStatus({ ownerId, viewerId })
+    const userRelation: UserRelation = {
+        ownerId: req.params.owner,
+        viewerId: String(req.session.userId),
+    };
+    console.log(userRelation);
+    db.getFriendRequestStatus(userRelation)
         .then((entry: QueryResult) => {
             let relation: "none" | "sent" | "received" | "friend" | null = null;
             if (entry.rows[0].id) {
-                if (entry.rows[0].accepted != "1") {
-                    if (ownerId == entry.rows[0].sender_id) {
+                if (!entry.rows[0].accepted) {
+                    if (userRelation.ownerId == entry.rows[0].sender_id) {
                         relation = "received";
                     } else {
                         relation = "sent";
@@ -242,7 +248,57 @@ app.get("/relation/:owner", (req, res) => {
             }
             res.json({ success: true, relation: relation });
         })
-        .catch(() => res.json({ success: false, relation: null }));
+        .catch(() => res.json({ success: true, relation: "none" }));
+});
+
+app.post("/change-relation", (req, res) => {
+    const viewerId = String(req.session.userId);
+    const { ownerId } = req.body;
+
+    const relation: "none" | "sent" | "received" | "friend" = req.body.relation;
+    switch (relation) {
+        case "none":
+            db.insertFriendRequest(viewerId, ownerId)
+                .then(() => {
+                    res.json({
+                        success: true,
+                        newRelation: "sent",
+                    });
+                })
+                .catch(() => res.json({ success: false, newRelation: null }));
+            break;
+        case "sent":
+            db.cancelFriendRequest(viewerId, ownerId)
+                .then(() => {
+                    res.json({
+                        success: true,
+                        newRelation: "none",
+                    });
+                })
+                .catch(() => res.json({ success: false, newRelation: null }));
+            break;
+        case "received":
+            db.updateFriendRequestToAccepted(ownerId, viewerId)
+                .then(() => {
+                    res.json({
+                        success: true,
+                        newRelation: "friend",
+                    });
+                })
+                .catch(() => res.json({ success: false, newRelation: null }));
+            break;
+        case "friend":
+            //preliminary implementation
+            db.cancelFriendRequest(viewerId, ownerId)
+                .then(() => {
+                    res.json({
+                        success: true,
+                        newRelation: "none",
+                    });
+                })
+                .catch(() => res.json({ success: false, newRelation: null }));
+            break;
+    }
 });
 
 app.get("*", function (req, res): void {
