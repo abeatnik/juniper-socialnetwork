@@ -34,8 +34,8 @@ export const getUserByEmail = (email: string): Promise<QueryResult> => {
     return db.query(sql, [email]);
 };
 
-export const getUserInfo = (userId: number) => {
-    const sql = `SELECT last, first, email, url, bio FROM users WHERE users.id=$1;`;
+export const getUserInfo = (userId: string) => {
+    const sql = `SELECT last, first, email, url, bio, id FROM users WHERE users.id=$1;`;
     return db.query(sql, [userId]);
 };
 
@@ -43,12 +43,12 @@ export const authenticateUser = (hash: string, password: string) => {
     return bcrypt.compare(password, hash);
 };
 
-export const insertProfilePic = (url: string, userId: number) => {
+export const insertProfilePic = (url: string, userId: string) => {
     const sql = `UPDATE users SET url=$1 WHERE id=$2;`;
     return db.query(sql, [url, userId]);
 };
 
-export const insertProfileBio = (bio: string, userId: number) => {
+export const insertProfileBio = (bio: string, userId: string) => {
     const sql = `UPDATE users SET bio=$1 WHERE id=$2;`;
     return db.query(sql, [bio, userId]);
 };

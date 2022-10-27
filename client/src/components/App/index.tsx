@@ -4,9 +4,10 @@ import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import Profile from "./Profile";
 import { BrowserRouter, Route } from "react-router-dom";
-import RecentUsers from "./RecentUsers";
 import FindFriends from "./FindFriends";
 import { User } from "../component-interfaces";
+import Logout from "./Logout";
+import OtherProfile from "./OtherProfile";
 
 const App = () => {
     const [userData, setUserData] = useState<User>({
@@ -21,7 +22,7 @@ const App = () => {
 
     useEffect(() => {
         updateProfile();
-    }, [userData]);
+    }, []);
 
     const updateProfile = () => {
         fetch(`/user-info`)
@@ -58,6 +59,7 @@ const App = () => {
                 <div id="profile-small">
                     <ProfilePic userData={userData} togglePopup={togglePopup} />
                 </div>
+                <Logout />
             </div>
             <div className="app-main">
                 {showUploader && <Uploader setProfilePic={setProfilePic} />}
@@ -73,8 +75,8 @@ const App = () => {
                     </Route>
                     <Route exact path="/users">
                         <FindFriends />
-                        {/* <RecentUsers /> */}
                     </Route>
+                    <Route path="/users/:id" children={<OtherProfile />} />
                 </BrowserRouter>
             </div>
             <div className="footer"></div>

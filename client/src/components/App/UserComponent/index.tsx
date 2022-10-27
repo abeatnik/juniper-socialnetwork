@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import { User } from "../../component-interfaces";
 
 interface UserComponentProps {

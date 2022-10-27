@@ -17,7 +17,7 @@ const BioEditor = (props: { currentBio: string; updateBio: Function }) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newBio),
+            body: JSON.stringify({ newBio }),
         })
             .then((response) => response.json())
             .then((data) => {

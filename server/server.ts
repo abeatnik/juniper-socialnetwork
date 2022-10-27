@@ -10,7 +10,6 @@ import cryptoRandomString, { async } from "crypto-random-string";
 import { QueryResult } from "pg";
 import { uploader, s3Uploader } from "./middleware";
 import { User } from "../client/src/components/component-interfaces";
-import { addSyntheticLeadingComment } from "typescript";
 
 dotenv.config();
 app.use(compression());
@@ -79,6 +78,10 @@ app.post("/login.json", (req, res) => {
         });
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.json();
+});
 app.post("/reset1", (req, res) => {
     db.getUserByEmail(req.body.email).then((entry) => {
         if (entry.rows[0].id) {
@@ -124,7 +127,7 @@ app.post("/reset2", (req, res) => {
 
 app.post("/profile-pic", uploader.single("file"), s3Uploader, (req, res) => {
     const { filename } = req.file;
-    const userId = parseInt(req.session.userId);
+    const userId = req.session.userId;
     const url = `https://s3.amazonaws.com/spicedling/${filename}`;
     db.insertProfilePic(url, userId)
         .then(res.json({ success: true, profileUrl: url }))
@@ -134,7 +137,7 @@ app.post("/profile-pic", uploader.single("file"), s3Uploader, (req, res) => {
 app.post("/save-bio", (req, res) => {
     const { userId } = req.session;
     const { newBio } = req.body;
-    db.insertProfileBio(newBio, parseInt(userId))
+    db.insertProfileBio(newBio, userId)
         .then(() => {
             res.json({
                 success: true,
@@ -181,6 +184,22 @@ app.get("/find/:query", (req, res) => {
     }
 });
 
+app.get("/user-profile/:id", (req, res) => {
+    const profileId = req.params.id;
+    db.getUserInfo(profileId)
+        .then((entry: QueryResult) => {
+            const userData: User = entry.rows[0];
+            if (userData.id === profileId) {
+                res.json({ success: false, ownProfile: true });
+            } else if (userData.id) {
+                res.json({ success: true, userData });
+            } else {
+                res.json({ sucess: false, ownProfile: false });
+            }
+        })
+        .catch((err: Error) => console.log(err));
+});
+
 app.get("/user/id.json", (req, res) => {
     if (req.session.userId) {
         const { userId } = req.session;
@@ -193,7 +212,7 @@ app.get("/user/id.json", (req, res) => {
 app.get("/user-info", (req, res) => {
     if (req.session.userId) {
         const { userId } = req.session;
-        db.getUserInfo(parseInt(userId)).then((entry: QueryResult) => {
+        db.getUserInfo(userId).then((entry: QueryResult) => {
             const { first, last, url, bio } = entry.rows[0];
             res.json({ userData: { first, last, url, bio }, userId });
         });

@@ -9,6 +9,7 @@ const FindFriendsResults = ({ searchString }: { searchString: string }) => {
     );
 
     useEffect(() => {
+        filterTwice();
         const timeout = setTimeout(() => {
             fetch(`/find/${searchString.split(" ").join("-")}`)
                 .then((response) => response.json())
@@ -21,6 +22,24 @@ const FindFriendsResults = ({ searchString }: { searchString: string }) => {
             clearTimeout(searchTimeout);
         };
     }, [searchString]);
+
+    const filterTwice = () => {
+        const searchArr: string[] = searchString.trim().split(" ");
+        const filtered: User[] = findFriendsResults.filter((person) => {
+            if (searchArr.length === 1) {
+                return (
+                    person.first.startsWith(searchArr[0]) ||
+                    person.last.startsWith(searchArr[0])
+                );
+            } else {
+                return (
+                    person.first.startsWith(searchArr[0]) &&
+                    person.last.startsWith(searchArr[1])
+                );
+            }
+        });
+        setFindFriendsResult(filtered);
+    };
 
     const showFindFriendResults = findFriendsResults.map((user) => (
         <li key={user.id}>
