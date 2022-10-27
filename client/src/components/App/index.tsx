@@ -8,6 +8,7 @@ import FindFriends from "./FindFriends";
 import { User } from "../component-interfaces";
 import Logout from "./Logout";
 import OtherProfile from "./OtherProfile";
+import "./style.css";
 
 const App = () => {
     const [userData, setUserData] = useState<User>({

@@ -221,6 +221,30 @@ app.get("/user-info", (req, res) => {
     }
 });
 
+app.get("/relation/:owner", (req, res) => {
+    const ownerId = req.params.owner;
+    const viewerId = req.session.userId;
+    db.getFriendRequestStatus({ ownerId, viewerId })
+        .then((entry: QueryResult) => {
+            let relation: "none" | "sent" | "received" | "friend" | null = null;
+            if (entry.rows[0].id) {
+                if (entry.rows[0].accepted != "1") {
+                    if (ownerId == entry.rows[0].sender_id) {
+                        relation = "received";
+                    } else {
+                        relation = "sent";
+                    }
+                } else {
+                    relation = "friend";
+                }
+            } else {
+                relation = "none";
+            }
+            res.json({ success: true, relation: relation });
+        })
+        .catch(() => res.json({ success: false, relation: null }));
+});
+
 app.get("*", function (req, res): void {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });

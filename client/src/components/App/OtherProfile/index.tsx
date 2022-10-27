@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { User } from "../../component-interfaces";
+import FriendButton from "../FriendButton";
 
 const OtherProfile = () => {
     const history = useHistory();
@@ -38,6 +39,7 @@ const OtherProfile = () => {
                         alt={profileData.first + " " + profileData.last}
                     />
                 </div>
+                <FriendButton ownerId={paramId} />
                 <h3>{profileData.first + " " + profileData.last}</h3>
                 <p>{profileData.bio}</p>
             </div>

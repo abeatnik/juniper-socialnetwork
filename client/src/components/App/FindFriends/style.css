@@ -1,0 +1,23 @@
+.friend-search-field {
+    grid-column: 2/4;
+    grid-row: 1/2;
+}
+
+.friend-search-results {
+    grid-column: 2/6;
+    grid-row-start: 2;
+}
+
+.recent-user-list {
+    grid-column: 2/6;
+    grid-row-start: 3;
+}
+
+.app-main > h4 {
+    grid-column: 2/6;
+    grid-row-start: 2;
+}
+
+.app-main ul {
+    list-style-type: none;
+}

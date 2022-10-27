@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 const Logout = () => {
     const userLogout = () => {
         fetch("/logout").then(() => {
-            window.location.reload();
+            window.location.replace("/login");
         });
     };
 

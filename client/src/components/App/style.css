@@ -1,0 +1,12 @@
+.app-main {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    max-height: 100vh;
+}
+
+.profile {
+    grid-column: 2/6;
+    grid-row-start: 2;
+}

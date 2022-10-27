@@ -1,0 +1,25 @@
+.uploader-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(62, 49, 73, 0.7);
+}
+
+.uploader-background .uploader {
+    width: 400px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.uploader-background .uploader form {
+    display: flex;
+    flex-direction: column;
+}

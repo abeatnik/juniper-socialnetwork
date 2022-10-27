@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.css";
 
 interface UploaderProps {
     setProfilePic: Function;
@@ -23,23 +24,30 @@ export default class Uploader extends React.PureComponent<UploaderProps> {
             });
     };
 
+    goToProfile = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.target === e.currentTarget && window.location.replace("/");
+    };
+
     render() {
         return (
             <>
-                <h2>Change your Profile Picture</h2>
-                <form
-                    encType="multipart/form-data"
-                    onSubmit={this.handleFormSubmit}
-                >
-                    <label htmlFor="profilePic">File</label>
-                    <input
-                        type="file"
-                        name="profilePic"
-                        accept="image/*"
-                        ref={this.fileInput}
-                    />
-                    <button type="submit">Upload</button>
-                </form>
+                <div className="uploader-background" onClick={this.goToProfile}>
+                    <div className="uploader">
+                        <h2>Change your Profile Picture</h2>
+                        <form
+                            encType="multipart/form-data"
+                            onSubmit={this.handleFormSubmit}
+                        >
+                            <input
+                                type="file"
+                                name="profilePic"
+                                accept="image/*"
+                                ref={this.fileInput}
+                            />
+                            <button type="submit">Upload</button>
+                        </form>
+                    </div>
+                </div>
             </>
         );
     }

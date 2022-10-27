@@ -27,8 +27,8 @@ const RecentUsers = () => {
 
     return (
         <>
-            <h3>Check out who just joined!</h3>
-            <ul>{recentUsersList}</ul>
+            <h4>Check out who just joined!</h4>
+            <ul className="recent-user-list">{recentUsersList}</ul>
         </>
     );
 };

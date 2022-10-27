@@ -49,7 +49,7 @@ const FindFriendsResults = ({ searchString }: { searchString: string }) => {
 
     return (
         <>
-            <ul>{showFindFriendResults}</ul>
+            <ul className="friend-search-results">{showFindFriendResults}</ul>
         </>
     );
 };
