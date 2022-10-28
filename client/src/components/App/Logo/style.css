@@ -1,10 +1,15 @@
 .logo-small .logo {
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     margin: 10px;
+    margin-left: 30px;
 }
 
 .logo-small .logo img {
     height: 100%;
     object-fit: contain;
+}
+
+.logo-small .logo img:hover {
+    cursor: pointer;
 }

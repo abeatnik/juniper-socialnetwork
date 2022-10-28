@@ -37,9 +37,11 @@ const FriendButton = (props: { ownerId: string }) => {
 
     return (
         <>
-            <button className="friend-button" onClick={handleClick}>
-                {relation && buttonInner[relation]}
-            </button>
+            <div className="button-container">
+                <button className="friend-button" onClick={handleClick}>
+                    {relation && buttonInner[relation]}
+                </button>
+            </div>
         </>
     );
 };

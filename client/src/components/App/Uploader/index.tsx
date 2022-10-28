@@ -44,7 +44,9 @@ export default class Uploader extends React.PureComponent<UploaderProps> {
                                 accept="image/*"
                                 ref={this.fileInput}
                             />
-                            <button type="submit">Upload</button>
+                            <div className="button-container">
+                                <button type="submit">Upload</button>
+                            </div>
                         </form>
                     </div>
                 </div>

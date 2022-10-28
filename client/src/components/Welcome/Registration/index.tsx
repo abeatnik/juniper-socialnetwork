@@ -158,8 +158,9 @@ const Registration = () => {
                         upper-case-letter, one number and have a minimum length
                         of 6 characters
                     </p>
-
-                    <button type="submit">Register</button>
+                    <div className="button-container">
+                        <button type="submit">Register</button>
+                    </div>
                 </form>
                 <p>
                     Already a user? Please <Link to="/login">log in</Link>.

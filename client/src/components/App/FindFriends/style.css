@@ -1,21 +1,45 @@
 .friend-search-field {
-    grid-column: 2/4;
-    grid-row: 1/2;
+    margin-top: 10vh;
 }
 
 .friend-search-results {
-    grid-column: 2/6;
-    grid-row-start: 2;
+    margin-top: 4vh;
+    width: 90vw;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.friend-search-results li {
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
 .recent-user-list {
-    grid-column: 2/6;
-    grid-row-start: 3;
+    margin-top: 1vh;
+    width: 90vw;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.recent-user-list li {
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.friend-search-results li p,
+.recent-user-list li p {
+    margin-top: 4px;
+    width: 97%;
+    margin-left: 3px;
+    border: 2px solid white;
+    border-right: 6px double white;
+    border-bottom: 6px double white;
+    padding: 2px 4px;
+    font-size: 0.9em;
 }
 
 .app-main > h4 {
-    grid-column: 2/6;
-    grid-row-start: 2;
+    margin-top: 20vh;
 }
 
 .app-main ul {

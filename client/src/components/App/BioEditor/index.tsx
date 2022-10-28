@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 
 const BioEditor = (props: { currentBio: string; updateBio: Function }) => {
     const [editMode, setEditMode] = useState<boolean>(false);
@@ -38,15 +37,21 @@ const BioEditor = (props: { currentBio: string; updateBio: Function }) => {
                 {props.currentBio && (
                     <>
                         <p className="bio-text">{props.currentBio}</p>
-                        <button className="edit" onClick={editBio}>
-                            Edit
-                        </button>
+                        <div className="button-container">
+                            <button className="edit" onClick={editBio}>
+                                Edit
+                            </button>
+                        </div>
                     </>
                 )}
                 {!props.currentBio && (
-                    <button className="add" onClick={editBio}>
-                        Add
-                    </button>
+                    <>
+                        <div className="button-container">
+                            <button className="add" onClick={editBio}>
+                                Add
+                            </button>
+                        </div>
+                    </>
                 )}
             </>
         );
@@ -62,9 +67,13 @@ const BioEditor = (props: { currentBio: string; updateBio: Function }) => {
                         value={draftBio}
                         onChange={handleInputChange}
                     ></textarea>
-                    <button className="save" onClick={saveBio}>
-                        Save
-                    </button>
+                    <>
+                        <div className="button-container">
+                            <button className="save" onClick={saveBio}>
+                                Save
+                            </button>
+                        </div>
+                    </>
                 </div>
             </>
         );

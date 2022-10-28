@@ -9,16 +9,20 @@ import "./style.css";
 const Welcome = () => {
     return (
         <>
-            <div className="header"></div>
-            <div className="welcome-grid">
+            <div className="welcome-window">
                 <div className="intro">
-                    <h1>Welcome!</h1>
                     <div className="welcome-logo">
                         <Logo />
                     </div>
+                    <h1>Welcome!</h1>
                     <p>
-                        Connect with intergalactic friends and meet your alter
-                        ego from a different universe!
+                        Did you miss out on the early days of the World Wide
+                        Web?
+                    </p>
+                    <p>Do you feel the nostalgia? </p>
+                    <p>
+                        Connect with your friends like it's the dawning of
+                        something great.
                     </p>
                 </div>
                 <BrowserRouter>

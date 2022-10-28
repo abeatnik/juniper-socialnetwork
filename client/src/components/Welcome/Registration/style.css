@@ -14,13 +14,8 @@
     flex-direction: column;
 }
 
-.welcome-main form button {
-    background-color: #aaaaaa;
-    border: none;
-    color: black;
-    width: 50%;
-    align-self: center;
-    margin-top: 50px;
+.welcome-main form .button-container {
+    margin-top: 10px;
 }
 
 .welcome-main .pw-info {
@@ -36,5 +31,5 @@
 }
 
 .welcome-main .error {
-    color: #9f1241;
+    color: #bababa;
 }

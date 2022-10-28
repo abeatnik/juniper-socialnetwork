@@ -4,33 +4,76 @@
     margin: 0;
     padding: 0;
     color: white;
+    border-radius: 2px;
 }
 
 input {
-    background-color: #5240ac;
+    background-color: #878787;
+    border: 2px solid white;
+    padding: 2px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+input:focus {
+    background-color: #897f7f;
+    outline-width: 0;
 }
 
 main {
     display: grid;
     min-height: 100vh;
     grid-template-rows: 100px 1fr 80px;
-    background-color: #5240ac;
+    background-color: #ac7b40;
 }
 
-button {
+.button-container button {
+    padding: 1px;
+    width: 100%;
     background-color: #ac4040;
+    border: 2px solid white;
+    box-shadow: 2px 6px #ac4040, 4px 2px #ac4040, 4px 6px #ac4040;
+}
+
+.button-container {
+    width: 180px;
+    background-color: white;
+    padding-right: 6px;
+    padding-bottom: 8px;
+    padding-top: 0;
+    padding-left: 0;
+}
+
+.button-container:hover {
+    background-color: #843030;
+    border: 2px solid white;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    padding-left: 1px;
+    padding-top: 2px;
+}
+
+.button-container:hover button {
+    background-color: #ac4040;
+    border: 2px solid white;
+    box-shadow: none;
 }
 
 .header {
+    margin: 0.7vw;
     height: 100px;
     display: flex;
     justify-content: space-between;
-    width: 100vw;
+    width: 98.6vw;
+    align-items: center;
+    background-color: #ac4040;
+    border-bottom: 7px double white;
+    border-right: 7px double white;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
 }
 
 .footer {
-    height: 80px;
-    background-color: rgba(23, 27, 17, 0.7);
+    height: 40px;
 }
 
 @font-face {

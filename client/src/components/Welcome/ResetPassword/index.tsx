@@ -109,7 +109,9 @@ const ResetPassword = () => {
                             value={userData.email}
                             onChange={handleInputChange}
                         />
-                        <button type="submit">Submit</button>
+                        <div className="button-container">
+                            <button type="submit">Submit</button>
+                        </div>
                     </form>
                 </div>
             </>
@@ -143,7 +145,9 @@ const ResetPassword = () => {
                             one upper-case-letter, one number and have a minimum
                             length of 6 characters
                         </p>
-                        <button type="submit">Update Password</button>
+                        <div className="button-container">
+                            <button type="submit">Update Password</button>
+                        </div>
                     </form>
                 </div>
             </>

@@ -8,6 +8,7 @@ import FindFriends from "./FindFriends";
 import { User } from "../component-interfaces";
 import Logout from "./Logout";
 import OtherProfile from "./OtherProfile";
+import Navigation from "./Navigation";
 import "./style.css";
 
 const App = () => {
@@ -54,13 +55,7 @@ const App = () => {
     return (
         <>
             <div className="header">
-                <div className="logo-small">
-                    <Logo />
-                </div>
-                <div id="profile-small">
-                    <ProfilePic userData={userData} togglePopup={togglePopup} />
-                </div>
-                <Logout />
+                <Navigation userData={userData} togglePopup={togglePopup} />
             </div>
             <div className="app-main">
                 {showUploader && <Uploader setProfilePic={setProfilePic} />}

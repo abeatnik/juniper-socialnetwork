@@ -12,7 +12,7 @@ interface ProfilePicProps {
 
 const ProfilePic = (props: ProfilePicProps) => {
     return (
-        <div className="profilePic">
+        <div className="profile-pic">
             <button onClick={props.togglePopup}>
                 <img
                     src={props.userData.url}
