@@ -17,6 +17,10 @@ main {
     background-color: #5240ac;
 }
 
+button {
+    background-color: #ac4040;
+}
+
 .header {
     height: 100px;
     display: flex;

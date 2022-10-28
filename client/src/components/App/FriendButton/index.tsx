@@ -25,17 +25,7 @@ const FriendButton = (props: { ownerId: string }) => {
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (relation) {
-            fetch("/change-relation", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    ownerId: props.ownerId,
-                    relation: relation,
-                    action: buttonInner[relation],
-                }),
-            })
+            fetch(`/friend-request/${relation}/${props.ownerId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {

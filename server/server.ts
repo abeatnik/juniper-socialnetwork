@@ -229,7 +229,7 @@ app.get("/relation/:owner", (req, res) => {
         ownerId: req.params.owner,
         viewerId: String(req.session.userId),
     };
-    console.log(userRelation);
+    console.log("userRelation ", userRelation);
     db.getFriendRequestStatus(userRelation)
         .then((entry: QueryResult) => {
             let relation: "none" | "sent" | "received" | "friend" | null = null;
@@ -251,54 +251,57 @@ app.get("/relation/:owner", (req, res) => {
         .catch(() => res.json({ success: true, relation: "none" }));
 });
 
-app.post("/change-relation", (req, res) => {
+app.get("/friend-request/none/:owner", (req, res) => {
     const viewerId = String(req.session.userId);
-    const { ownerId } = req.body;
+    const ownerId = req.params.owner;
+    db.insertFriendRequest(viewerId, ownerId)
+        .then(() => {
+            res.json({
+                success: true,
+                newRelation: "sent",
+            });
+        })
+        .catch(() => res.json({ success: false, newRelation: null }));
+});
 
-    const relation: "none" | "sent" | "received" | "friend" = req.body.relation;
-    switch (relation) {
-        case "none":
-            db.insertFriendRequest(viewerId, ownerId)
-                .then(() => {
-                    res.json({
-                        success: true,
-                        newRelation: "sent",
-                    });
-                })
-                .catch(() => res.json({ success: false, newRelation: null }));
-            break;
-        case "sent":
-            db.cancelFriendRequest(viewerId, ownerId)
-                .then(() => {
-                    res.json({
-                        success: true,
-                        newRelation: "none",
-                    });
-                })
-                .catch(() => res.json({ success: false, newRelation: null }));
-            break;
-        case "received":
-            db.updateFriendRequestToAccepted(ownerId, viewerId)
-                .then(() => {
-                    res.json({
-                        success: true,
-                        newRelation: "friend",
-                    });
-                })
-                .catch(() => res.json({ success: false, newRelation: null }));
-            break;
-        case "friend":
-            //preliminary implementation
-            db.cancelFriendRequest(viewerId, ownerId)
-                .then(() => {
-                    res.json({
-                        success: true,
-                        newRelation: "none",
-                    });
-                })
-                .catch(() => res.json({ success: false, newRelation: null }));
-            break;
-    }
+app.get("/friend-request/sent/:owner", (req, res) => {
+    const viewerId = String(req.session.userId);
+    const ownerId = req.params.owner;
+    db.cancelFriendRequest(viewerId, ownerId)
+        .then(() => {
+            res.json({
+                success: true,
+                newRelation: "none",
+            });
+        })
+        .catch(() => res.json({ success: false, newRelation: null }));
+});
+
+app.get("/friend-request/received/:owner", (req, res) => {
+    const viewerId = String(req.session.userId);
+    const ownerId = req.params.owner;
+    db.updateFriendRequestToAccepted(ownerId, viewerId)
+        .then(() => {
+            res.json({
+                success: true,
+                newRelation: "friend",
+            });
+        })
+        .catch(() => res.json({ success: false, newRelation: null }));
+});
+
+app.get("/friend-request/friend/:owner", (req, res) => {
+    const viewerId = String(req.session.userId);
+    const ownerId = req.params.owner;
+    //preliminary implementation
+    db.cancelFriendRequest(viewerId, ownerId)
+        .then(() => {
+            res.json({
+                success: true,
+                newRelation: "none",
+            });
+        })
+        .catch(() => res.json({ success: false, newRelation: null }));
 });
 
 app.get("*", function (req, res): void {

@@ -101,7 +101,7 @@ export const insertFriendRequest = (
 };
 
 export const getFriendRequestStatus = (entry: UserRelation) => {
-    const sql = `SELECT * FROM friend_requests WHERE sender_id=$1 OR sender_id=$2 AND recipient_id=$1 OR sender_id=$2;`;
+    const sql = `SELECT * FROM friend_requests WHERE (sender_id=$1 OR sender_id=$2) AND (recipient_id=$1 OR recipient_id=$2);`;
     return db.query(sql, [entry.ownerId, entry.viewerId]);
 };
 
@@ -114,6 +114,6 @@ export const updateFriendRequestToAccepted = (
     senderId: string,
     recipientId: string
 ) => {
-    const sql = `UPDATE friend_requests SET accepted=1 WHERE sender_id=$1 AND recipient_id=$2;`;
+    const sql = `UPDATE friend_requests SET "accepted"=TRUE WHERE sender_id=$1 AND recipient_id=$2;`;
     return db.query(sql, [senderId, recipientId]);
 };
