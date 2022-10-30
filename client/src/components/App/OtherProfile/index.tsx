@@ -32,20 +32,24 @@ const OtherProfile = () => {
 
     return (
         <>
-            <div className="profile-view">
-                <div className="profile-picture">
-                    <button>
-                        <img
-                            src={profileData.url}
-                            alt={profileData.first + " " + profileData.last}
-                        />
-                    </button>
-                </div>
-                <div className="profile-information">
-                    <div className="bio-info">
-                        <h2>{profileData.first + " " + profileData.last}</h2>
-                        <p>{profileData.bio}</p>
-                        <FriendButton ownerId={paramId} />
+            <div className="profile-other">
+                <div className="profile-view">
+                    <div className="profile-picture">
+                        <button>
+                            <img
+                                src={profileData.url}
+                                alt={profileData.first + " " + profileData.last}
+                            />
+                        </button>
+                    </div>
+                    <div className="profile-information">
+                        <div className="bio-info">
+                            <h2>
+                                {profileData.first + " " + profileData.last}
+                            </h2>
+                            <p>{profileData.bio}</p>
+                            <FriendButton ownerId={paramId} />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,19 +3,18 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: white;
-    border-radius: 2px;
+    color: black;
 }
 
 input {
-    background-color: #878787;
-    border: 2px solid white;
+    background-color: transparent;
+    border: 2px solid black;
     padding: 2px;
     transition: background-color 0.3s ease-in-out;
 }
 
 input:focus {
-    background-color: #897f7f;
+    background-color: rgba(219, 219, 219, 0.2);
     outline-width: 0;
 }
 
@@ -23,39 +22,30 @@ main {
     display: grid;
     min-height: 100vh;
     grid-template-rows: 100px 1fr 80px;
-    background-color: #ac7b40;
+    background-color: #4e6e6a;
+    overflow: hidden;
 }
 
 .button-container button {
-    padding: 1px;
+    padding: 2px 4px;
     width: 100%;
     background-color: #ac4040;
-    border: 2px solid white;
-    box-shadow: 2px 6px #ac4040, 4px 2px #ac4040, 4px 6px #ac4040;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    border-radius: 0;
+    color: black;
+    transition: transform;
 }
 
-.button-container {
-    width: 180px;
-    background-color: white;
-    padding-right: 6px;
-    padding-bottom: 8px;
-    padding-top: 0;
-    padding-left: 0;
+.button-container button:hover {
+    background-color: #ccafaf;
 }
 
-.button-container:hover {
-    background-color: #843030;
-    border: 2px solid white;
-    padding-right: 2px;
-    padding-bottom: 2px;
-    padding-left: 1px;
-    padding-top: 2px;
-}
-
-.button-container:hover button {
-    background-color: #ac4040;
-    border: 2px solid white;
+.button-container button:active {
+    transform: translate(3px, 3px);
     box-shadow: none;
+    border: 1px solid black;
+    background-color: #933a3a;
 }
 
 .header {
@@ -66,10 +56,8 @@ main {
     width: 98.6vw;
     align-items: center;
     background-color: #ac4040;
-    border-bottom: 7px double white;
-    border-right: 7px double white;
-    border-top: 2px solid white;
-    border-left: 2px solid white;
+    border: 2px solid black;
+    box-shadow: 4px 4px black;
 }
 
 .footer {

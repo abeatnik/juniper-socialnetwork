@@ -1,5 +1,28 @@
-.friend-search-field {
-    margin-top: 10vh;
+.search-container {
+    margin-top: 40px;
+    min-height: 90vh;
+    width: 100%;
+    padding: 10vh 10vh 18vh;
+    background-color: #cfc9c9;
+    border: 2px solid black;
+    box-shadow: 4px 4px black;
+}
+
+.friend-search-field label {
+    color: #4e6e6a;
+    border: 2px solid #4e6e6a;
+    padding: 2px 4px;
+    font-size: 1.2em;
+}
+
+.friend-search-field input {
+    border: 2px solid #4e6e6a;
+    margin-left: 4px;
+    background-color: transparent;
+    font-size: 1.12em;
+    padding: 2px 8px;
+    color: #fff;
+    box-shadow: 4px 4px #4e6e6a;
 }
 
 .friend-search-results {
@@ -9,7 +32,8 @@
     flex-flow: row wrap;
 }
 
-.friend-search-results li {
+.friend-search-results li,
+.recent-user-list li {
     margin-right: 20px;
     margin-top: 20px;
 }
@@ -21,25 +45,41 @@
     flex-flow: row wrap;
 }
 
-.recent-user-list li {
-    margin-right: 20px;
-    margin-top: 20px;
+.friend-search-results li:hover,
+.recent-user-list li:hover {
+    cursor: pointer;
 }
 
 .friend-search-results li p,
+.recent-user-list li p:hover {
+    margin-top: 4px;
+    width: 97%;
+    margin-left: 3px;
+    border: 2px solid #4e6e6a;
+    padding: 2px 4px;
+    font-size: 0.9em;
+    color: #4e6e6a;
+    box-shadow: 4px 4px #4e6e6a;
+}
+
+.friend-search-results li p:hover,
 .recent-user-list li p {
     margin-top: 4px;
     width: 97%;
     margin-left: 3px;
-    border: 2px solid white;
-    border-right: 6px double white;
-    border-bottom: 6px double white;
+    border: 2px solid #ac4040;
     padding: 2px 4px;
     font-size: 0.9em;
+    color: #ac4040;
+    box-shadow: 4px 4px #ac4040;
 }
-
-.app-main > h4 {
+.search-container > h4 {
     margin-top: 20vh;
+    color: #ac4040;
+    font-size: 1.6em;
+    padding-bottom: 2px;
+    border-bottom: 4px solid #ac4040;
+    width: 400px;
 }
 
 .app-main ul {

@@ -12,17 +12,19 @@ const FindFriends = () => {
 
     return (
         <>
-            <div className="friend-search-field">
-                <label htmlFor="friendsearch">Find people you know: </label>
-                <input
-                    type="text"
-                    name="friendsearch"
-                    value={findFriend}
-                    onChange={(e) => updateSearchInput(e.target.value)}
-                ></input>
+            <div className="search-container">
+                <div className="friend-search-field">
+                    <label htmlFor="friendsearch">Find people you know: </label>
+                    <input
+                        type="text"
+                        name="friendsearch"
+                        value={findFriend}
+                        onChange={(e) => updateSearchInput(e.target.value)}
+                    ></input>
+                </div>
+                {findFriend && <FindFriendsResults searchString={findFriend} />}
+                {!findFriend && <RecentUsers />}
             </div>
-            {findFriend && <FindFriendsResults searchString={findFriend} />}
-            {!findFriend && <RecentUsers />}
         </>
     );
 };

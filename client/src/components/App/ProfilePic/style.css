@@ -1,13 +1,19 @@
 #profile-small .profile-pic {
-    margin: 10px 20px 10px 10px;
+    margin: 10px 40px 10px 10px;
     height: 80px;
     width: 80px;
-    border: 2px solid white;
+    border: 2px solid black;
     padding: 1px;
+    transition: transform 0.4s ease-out;
 }
 
 #profile-small img:hover {
     cursor: pointer;
+}
+
+#profile-small .profile-pic:hover {
+    transform: scale(1.5);
+    background-color: #cfc9c9;
 }
 
 #profile-small button {
@@ -16,7 +22,7 @@
     overflow: hidden;
     border-radius: 50%;
     border-width: 2px;
-    border-color: white;
+    border-color: black;
     border-style: solid dashed;
     background-color: transparent;
 }

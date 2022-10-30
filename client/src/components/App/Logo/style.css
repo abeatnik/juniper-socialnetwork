@@ -1,8 +1,10 @@
 .logo-small .logo {
-    height: 60px;
-    width: 60px;
+    height: 80px;
+    width: 80px;
     margin: 10px;
+    padding: 14px;
     margin-left: 30px;
+    transition: transform 0.3s ease-out;
 }
 
 .logo-small .logo img {
@@ -12,4 +14,10 @@
 
 .logo-small .logo img:hover {
     cursor: pointer;
+}
+.logo-small .logo:hover {
+    border-radius: 50%;
+    background-color: #cfc9c9;
+    box-shadow: 4px 4px black;
+    transform: scale(1.4);
 }
