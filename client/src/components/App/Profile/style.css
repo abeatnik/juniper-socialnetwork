@@ -104,6 +104,18 @@
     margin-left: -4px;
 }
 
+.profile-view button.edit,
+.profile-view button.save,
+.profile-view button.add {
+    background-color: #ccafaf;
+}
+
+.profile-view button.edit:hover,
+.profile-view button.save:hover,
+.profile-view button.add:hover {
+    background-color: #ac4040;
+}
+
 .profile-view button.edit:active,
 .profile-view button.save:active,
 .profile-view button.add:active {
