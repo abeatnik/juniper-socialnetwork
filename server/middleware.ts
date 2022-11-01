@@ -30,7 +30,6 @@ export const s3Uploader = (
     res: express.Response,
     next: express.NextFunction
 ) => {
-    console.log("uploading image remote");
     const { filename, mimetype, size, path } = req.file;
     const insertRemoteImage = s3
         .putObject({

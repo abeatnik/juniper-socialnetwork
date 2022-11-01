@@ -104,16 +104,12 @@ const Login = () => {
                     {showError && !errorObject.password && (
                         <p className="error">Please enter your password.</p>
                     )}
+                    <p className="forgot"><Link to="/reset">Forgot your password?</Link></p>
                     <div className="button-container">
                         <button type="submit">Login</button>
                     </div>
                 </form>
-                <p>
-                    Forgot your password? Click <Link to="/reset">here</Link>.
-                </p>
-                <p>
-                    Not yet a user? Please <Link to="/">sign up</Link>.
-                </p>
+                <p className="switch"><Link to="/">Register</Link></p>
             </div>
         </>
     );
