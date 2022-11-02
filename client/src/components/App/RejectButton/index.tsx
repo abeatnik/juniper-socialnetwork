@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { removeFriendship } from "../../../redux/friendships";
 
-const RejectButton = (props: { ownerId: string }) => {
+const RejectButton = (props: { ownerId: string, setRelation: React.MouseEventHandler<HTMLButtonElement>}) => {
     const dispatch = useDispatch();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -15,7 +15,7 @@ const RejectButton = (props: { ownerId: string }) => {
     return (
         <>
             <div className="button-container">
-                <button className="reject-button" onClick={handleClick}>Reject Request</button>
+                <button className="reject-button" onClick={(e) => {props.setRelation(e); handleClick(e) }}>Reject Request</button>
             </div>
         </>
     );

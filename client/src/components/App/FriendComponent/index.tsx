@@ -1,6 +1,5 @@
 import { Friendship } from "../../../redux/friendships";
 import FriendButton from "../FriendButton";
-import RejectButton from "../RejectButton";
 import { useHistory } from "react-router";
 
 interface FriendComponentProps {
@@ -23,8 +22,6 @@ const FriendComponent = ({ friend }: FriendComponentProps) => {
                 {friend.first} {friend.last}
             </p>
             {friend.accepted? <div className="unfriend"><FriendButton ownerId={friend.id}/></div> : <FriendButton ownerId={friend.id}/> }
-            {!friend.accepted && <RejectButton ownerId={friend.id}/>}
-
         </>
     );
 };

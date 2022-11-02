@@ -18,6 +18,10 @@
 
 .search-container .button-container .reject-button {
     background-color: #ac4040;
+} 
+
+.search-container .button-container.sent button {
+    background-color: #ac4040;
 }
 
 .search-container .unfriend .button-container button{

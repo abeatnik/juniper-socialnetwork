@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import RejectButton from "../RejectButton";
 import friendshipReducer, { addFriendship, removeFriendship } from "../../../redux/friendships";
 
 const FriendButton = (props: { ownerId: string }) => {
@@ -46,11 +47,12 @@ const FriendButton = (props: { ownerId: string }) => {
 
     return (
         <>
-            <div className="button-container">
+            <div className={"button-container " + relation}>
                 <button className="friend-button" onClick={handleClick}>
                     {relation && buttonInner[relation]}
                 </button>
             </div>
+            {relation === "received" && <RejectButton ownerId={props.ownerId} setRelation={handleClick}/>}
         </>
     );
 };

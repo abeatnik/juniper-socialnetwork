@@ -37,6 +37,15 @@ main {
     transition: transform;
 }
 
+.button-container .reject-button {
+    background-color: #ac4040;
+} 
+
+.button-container.sent button {
+    background-color: #ac4040;
+}
+
+
 .button-container button:hover {
     background-color: #ccafaf;
 }
