@@ -10,9 +10,16 @@
     margin-top: 10px;
     margin-left: 2%;
     width: 96%;
-    margin-bottom: 20px;
 }
 
 .search-container .button-container button {
     background-color: #4e6e6a;
+}
+
+.search-container .button-container .reject-button {
+    background-color: #ac4040;
+}
+
+.search-container .unfriend .button-container button{
+    background-color: #ac4040;
 }
