@@ -117,3 +117,15 @@ export const updateFriendRequestToAccepted = (
     const sql = `UPDATE friend_requests SET "accepted"=TRUE WHERE sender_id=$1 AND recipient_id=$2;`;
     return db.query(sql, [senderId, recipientId]);
 };
+
+
+export const getFriendList = (userId: string) => {
+    const sql = `SELECT accepted, users.id, users.first, users.last, users.url FROM friend_requests JOIN users ON (sender_id = users.id OR recipient_id = users.id) WHERE users.id <> $1 AND ((recipient_id = $1 AND accepted =FALSE) OR ((recipient_id = $1 OR sender_id=$1) AND accepted = TRUE));`;
+    return db.query(sql, [userId]);
+};
+
+
+export const getFriendship = (entry: UserRelation) => {
+    const sql = `SELECT accepted, users.id, users.first, users.last, users.url FROM friend_requests JOIN users ON (sender_id = users.id OR recipient_id = users.id) WHERE users.id <> $1 AND ((accepted = FALSE AND sender_id = $2 AND recipient_id = $1) OR (accepted = TRUE AND ((recipient_id = $2 OR sender_id= $2) AND (recipient_id = $1 OR sender_id= $1))));`;
+    return db.query(sql, [entry.viewerId, entry.ownerId]); 
+}

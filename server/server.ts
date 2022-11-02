@@ -13,6 +13,7 @@ import {
     User,
     UserRelation,
 } from "../client/src/components/component-interfaces";
+import {Friendship} from "../client/src/redux/friendships";
 
 dotenv.config();
 app.use(compression());
@@ -233,6 +234,7 @@ app.get("/relation/:owner", (req, res) => {
     db.getFriendRequestStatus(userRelation)
         .then((entry: QueryResult) => {
             let relation: "none" | "sent" | "received" | "friend" | null = null;
+            
             if (entry.rows[0].id) {
                 if (!entry.rows[0].accepted) {
                     if (userRelation.ownerId == entry.rows[0].sender_id) {
@@ -303,6 +305,23 @@ app.get("/friend-request/friend/:owner", (req, res) => {
         })
         .catch(() => res.json({ success: false, newRelation: null }));
 });
+
+app.get("/friendships", (req,res) => {
+    const {userId} = req.session;
+    db.getFriendList(userId).then((entries: QueryResult)=> {
+        res.json({success: true, friendships: entries.rows});
+    })
+})
+
+app.get("/friend-relation/:owner", (req,res)=>{
+    const viewerId = String(req.session.userId);
+    const ownerId = req.params.owner;
+    db.getFriendship({viewerId, ownerId}).then((entry: QueryResult) => {
+        const friendInfo: Friendship[] = entry.rows[0];
+        res.json({success: true, friendInfo})
+    })
+
+})
 
 app.get("*", function (req, res): void {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

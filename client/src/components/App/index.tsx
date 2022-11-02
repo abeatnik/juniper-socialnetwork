@@ -9,6 +9,7 @@ import { User } from "../component-interfaces";
 import Logout from "./Logout";
 import OtherProfile from "./OtherProfile";
 import Navigation from "./Navigation";
+import Friendships from "./Friendships";
 import "./style.css";
 
 const App = () => {
@@ -73,6 +74,9 @@ const App = () => {
                         <FindFriends />
                     </Route>
                     <Route path="/users/:id" children={<OtherProfile />} />
+                    <Route exact path="/friends">
+                        <Friendships />
+                    </Route>
                 </BrowserRouter>
             </div>
             <div className="footer"></div>
