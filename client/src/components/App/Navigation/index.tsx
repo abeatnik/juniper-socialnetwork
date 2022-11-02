@@ -3,6 +3,7 @@ import ProfilePic from "../ProfilePic";
 import Logout from "../Logout";
 import { User } from "../../component-interfaces";
 import UserList from "../UserList";
+import FriendList from "../FriendList";
 import "./style.css";
 
 const Navigation = (props: {
@@ -15,6 +16,7 @@ const Navigation = (props: {
                 <Logo />
             </div>
             <UserList />
+            <FriendList />
             <Logout />
             <div id="profile-small">
                 <ProfilePic

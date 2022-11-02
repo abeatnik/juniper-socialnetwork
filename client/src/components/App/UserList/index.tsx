@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 const UserList = () => {
     const history = useHistory();
     const showUsers = (e: React.MouseEvent<HTMLButtonElement>) => {
-        window.location.replace("/users");
+        window.location.replace("/people");
         // history.push("/users");
     };
 

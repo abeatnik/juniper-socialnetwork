@@ -70,7 +70,7 @@ const App = () => {
                             />
                         </div>
                     </Route>
-                    <Route exact path="/users">
+                    <Route path="/people/:search?">
                         <FindFriends />
                     </Route>
                     <Route path="/users/:id" children={<OtherProfile />} />

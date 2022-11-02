@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FindFriendsResults from "../FindFriendsResults";
 import RecentUsers from "../RecentUsers";
 import "./style.css";
+import { useHistory, useParams } from "react-router";
 
 const FindFriends = () => {
+    const history = useHistory();
     const [findFriend, setFindFriend] = useState<string>("");
+    const searchString = useParams<{search: string}>().search;
 
     const updateSearchInput = (value: HTMLInputElement["value"]) => {
         setFindFriend(value);
+        history.replace(`/people/${value}`)
     };
+
+    useEffect(()=>{
+        setFindFriend(searchString);
+    },[])
 
     return (
         <>
