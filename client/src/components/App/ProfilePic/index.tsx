@@ -15,7 +15,7 @@ const ProfilePic = (props: ProfilePicProps) => {
         <div className="profile-pic">
             <button onClick={props.togglePopup}>
                 <img
-                    src={props.userData.url}
+                    src={props.userData.url || "/assets/astronaut.svg"}
                     alt={props.userData.first + " " + props.userData.last}
                 />
             </button>

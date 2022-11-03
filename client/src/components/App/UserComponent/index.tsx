@@ -16,7 +16,7 @@ const UserComponent = ({ user }: UserComponentProps) => {
     return (
         <>
             <div className="avatar" onClick={showProfile}>
-                <img src={user.url} alt={user.first + " " + user.last} />
+                <img src={user.url || "/assets/astronaut.svg"} alt={user.first + " " + user.last} />
             </div>
             <p>
                 {user.first} {user.last}

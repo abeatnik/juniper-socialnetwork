@@ -37,7 +37,7 @@ const OtherProfile = () => {
                     <div className="profile-picture">
                         <button>
                             <img
-                                src={profileData.url}
+                                src={profileData.url || "/assets/astronaut.svg"}
                                 alt={profileData.first + " " + profileData.last}
                             />
                         </button>

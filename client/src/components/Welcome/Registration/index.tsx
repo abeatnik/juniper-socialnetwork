@@ -82,7 +82,7 @@ const Registration = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        location.reload();
+                        window.location.href = "/";
                     } else {
                         window.alert("Registration failed");
 

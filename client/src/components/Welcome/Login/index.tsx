@@ -56,7 +56,7 @@ const Login = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        location.href = "/";
+                        window.location.href = "/";
                     } else {
                         window.alert("Login failed");
                         setUserAuthInfo({
