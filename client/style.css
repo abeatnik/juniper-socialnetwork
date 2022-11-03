@@ -26,6 +26,14 @@ main {
     overflow: hidden;
 }
 
+button {
+text-transform: uppercase;
+}
+
+h1, h2, h3, h4 {
+    text-transform: uppercase;
+}
+
 .button-container button {
     padding: 2px 4px;
     width: 100%;

@@ -1,4 +1,4 @@
-import { Friendship } from "../../../redux/friendships";
+import { Friendship } from "../../../redux/friendships.slice";
 import FriendButton from "../FriendButton";
 import { useHistory } from "react-router";
 

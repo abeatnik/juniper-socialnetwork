@@ -13,7 +13,7 @@ import {
     User,
     UserRelation,
 } from "../client/src/components/component-interfaces";
-import {Friendship} from "../client/src/redux/friendships";
+import {Friendship} from "../client/src/redux/friendships.slice";
 
 dotenv.config();
 app.use(compression());

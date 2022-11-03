@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { receiveFriendships } from "../../../redux/friendships";
+import { receiveFriendships } from "../../../redux/friendships.slice";
 import { useSelector } from "react-redux";
-import {Friendship, StateInterface} from "../../../redux/friendships";
+import {Friendship, StateInterface} from "../../../redux/friendships.slice";
 import FriendComponent from "../FriendComponent";
 import "./style.css";
 
@@ -41,9 +41,9 @@ const Friendships = () => {
     return (
         <>
         <div className="search-container">
-            <h2>You have {receivedRequests.length} Friend Requests</h2>
+            <h2>{receivedRequests.length === 1? "One person wants" : receivedRequests.length + " people want"} to be friends with you:</h2>
             <ul className="friend-search-results">{showReceivedRequests}</ul>
-            <h2 className="friend-list-label">Your Friends</h2>
+            <h2 className="friend-list-label">Your Friends:</h2>
             <ul className="friend-search-results">{showFriends}</ul> 
         </div>
         </>

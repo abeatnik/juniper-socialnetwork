@@ -73,6 +73,8 @@ export const updateUserPassword = (email: string, hash: string) => {
     return db.query(sql, [email, hash]);
 };
 
+
+
 export const getRecentlyAdded = () => {
     return db.query(
         `SELECT first, last, id, url, bio FROM users ORDER BY id DESC LIMIT 3;`
