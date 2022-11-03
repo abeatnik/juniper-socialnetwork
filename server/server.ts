@@ -14,6 +14,10 @@ import {
     UserRelation,
 } from "../client/src/components/component-interfaces";
 import {Friendship} from "../client/src/redux/friendships.slice";
+import http from "http";
+import { Server } from "socket.io";
+const httpServer =  http.createServer(app);
+const io = new Server(httpServer);
 
 dotenv.config();
 app.use(compression());

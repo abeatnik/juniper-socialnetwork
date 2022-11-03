@@ -1,75 +1,50 @@
-.profile {
-    width: 98.6vw;
-    padding: 10vw;
-    background-color: #cfc9c9;
-    border: 2px solid black;
-    box-shadow: 4px 4px black;
-    margin-top: 40px;
-}
 
-.profile-other {
-    width: 98.6vw;
-    padding: 10vw;
-    background-color: #cfc9c9;
-    border: 2px solid black;
-    box-shadow: 4px 4px black;
-    margin-top: 40px;
-}
 
 .profile-view {
     display: flex;
+    /* background-color: #FFF;
+    padding: 40px;
+    border: 2px solid black; */
 }
 
 .profile-view .profile-picture {
-    border: 2px solid #ac4040;
-    width: 324px;
-    height: 324px;
-    background-color: #ac4040;
-    box-shadow: 3px 3px #ac4040;
-}
-
-.profile-other .profile-picture {
-    border: 2px solid #4e6e6a;
-    background-color: #4e6e6a;
-    box-shadow: 3px 3px #4e6e6a;
+    border: 2px solid #000;
+    padding: 2px;
+    max-height: 20.5vw;
+    max-width: 21vw;
+    box-shadow: 3px 3px #000;
 }
 
 .profile-view .profile-picture button {
-    height: 320px;
-    width: 320px;
+    height: 20vw;
+    width: 20vw;
     overflow: hidden;
     border: 0;
 }
 
 .profile-view .profile-picture button img {
-    height: 320px;
-    width: 320px;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
     filter: grayscale(60%);
 }
 
 .profile-view .profile-information {
-    min-height: 330px;
+    min-height: 20vh;
+    max-height: 50vh;
     margin-left: 40px;
     display: flex;
     flex-direction: column;
 }
 
 .profile-view .profile-information h2 {
-    border: 2px solid #ac4040;
-    color: #ac4040;
-    padding: 2px 8px;
-}
-
-.profile-other .profile-view .profile-information h2 {
-    border: 2px solid #4e6e6a;
-    color: #4e6e6a;
+    color: #000;
     padding: 2px 8px;
 }
 
 .profile-view .profile-information .bio-info {
-    width: 30vw;
-    min-height: 330px;
+    max-width: 30vw;
+    min-height: 20vw;
     display: flex;
     flex-direction: column;
 }
@@ -77,17 +52,12 @@
 .profile-view .profile-information .bio-info p {
     margin-top: 20px;
     min-height: 206px;
-    border: 2px solid #ac4040;
-    color: #ac4040;
+    color: #000;
     padding: 16px 16px;
     font-size: 1em;
-    background-color: #cfc9c9;
 }
 
-.profile-other .profile-view .profile-information .bio-info p {
-    border: 2px solid #4e6e6a;
-    color: #4e6e6a;
-}
+
 .profile-other button {
     background-color: #4e6e6a;
 }
@@ -111,30 +81,29 @@
 .profile-view button.edit,
 .profile-view button.save,
 .profile-view button.add {
-    background-color: #ccafaf;
+    background-color: transparent;
 }
 
 .profile-view button.edit:hover,
 .profile-view button.save:hover,
 .profile-view button.add:hover {
-    background-color: #ac4040;
+    background-color: #eee;
 }
 
 .profile-view button.edit:active,
 .profile-view button.save:active,
 .profile-view button.add:active {
-    background-color: #ccafaf;
+    background-color: transparent;
 }
 
 .profile-view .profile-information .bio-info textarea {
     width: 100%;
     margin-top: 20px;
     min-height: 206px;
-    border: 2px solid black;
     padding: 4px 8px;
     font-size: 0.9em;
-    background-color: #cfc9c9;
     resize: none;
+    background-color: transparent;
 }
 
 .profile-view .profile-information .button-container {

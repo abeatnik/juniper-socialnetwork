@@ -22,12 +22,13 @@ main {
     display: grid;
     min-height: 100vh;
     grid-template-rows: 100px 1fr 80px;
-    background-color: #4e6e6a;
+    background-color: #FFF;
     overflow: hidden;
 }
 
 button {
 text-transform: uppercase;
+font-size: 0.8em;
 }
 
 h1, h2, h3, h4 {
@@ -72,9 +73,10 @@ h1, h2, h3, h4 {
     justify-content: space-between;
     width: 98.6vw;
     align-items: center;
-    background-color: #ac4040;
-    border: 2px solid black;
-    box-shadow: 4px 4px black;
+    background-color: #FFF;
+    border-bottom: 2px solid black;
+    /* border: 2px solid black;
+    box-shadow: 4px 4px black; */
 }
 
 .footer {

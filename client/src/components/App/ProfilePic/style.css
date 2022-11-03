@@ -1,10 +1,11 @@
 #profile-small .profile-pic {
-    margin: 10px 40px 10px 10px;
+    margin: 10px 40px 0px 60px;
     height: 80px;
     width: 80px;
     border: 2px solid black;
     padding: 1px;
     transition: transform 0.4s ease-out;
+    background-color: #FFF;
 }
 
 #profile-small img:hover {
@@ -24,7 +25,7 @@
     border-width: 2px;
     border-color: black;
     border-style: solid dashed;
-    background-color: transparent;
+    background-color: #FFF;
 }
 
 #profile-small button img {

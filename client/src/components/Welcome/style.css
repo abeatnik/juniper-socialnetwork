@@ -39,3 +39,56 @@
     margin-bottom: 80px;
     height: 100vw;
 }
+
+.welcome-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-div, .registration-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+
+.welcome-main h2 {
+    color: #aaaaaa;
+}
+
+.welcome-main form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-main form .button-container {
+    margin-top: 10px;
+}
+
+.welcome-main form label {
+    margin-top: 8px;
+}
+
+.welcome-main .pw-info {
+    font-size: 0.8em;
+    margin-top: 10px;
+    width: 90%;
+    align-self: center;
+    text-align: justify;
+}
+
+.welcome-main p {
+    margin-top: 20px;
+}
+
+.welcome-main .error {
+    color: #752f2f;
+    margin: 10px;
+}
+
+.welcome-main p.switch {
+    text-decoration: none;
+}

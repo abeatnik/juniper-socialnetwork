@@ -31,8 +31,8 @@ const FindFriends = () => {
                     ></input>
                 </div>
                 {findFriend && <FindFriendsResults searchString={findFriend} />}
-                {!findFriend && <RecentUsers />}
             </div>
+                <RecentUsers />
         </>
     );
 };

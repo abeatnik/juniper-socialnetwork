@@ -24,7 +24,7 @@ const Friendships = () => {
 
     const showFriends = friends.map(friend => {
         return (
-            <li key={friend.id}>
+            <li className="friend-li" key={friend.id}>
                 <FriendComponent friend={friend}/>
             </li>
         )
@@ -32,7 +32,7 @@ const Friendships = () => {
 
     const showReceivedRequests= receivedRequests.map(friend => {
         return (
-            <li key={friend.id}>
+            <li className="friend-li" key={friend.id}>
                 <FriendComponent friend={friend}/>
             </li>
         )
@@ -40,9 +40,11 @@ const Friendships = () => {
 
     return (
         <>
-        <div className="search-container">
+        <div className="requests friendlist">
             <h2>{receivedRequests.length === 1? "One person wants" : receivedRequests.length + " people want"} to be friends with you:</h2>
             <ul className="friend-search-results">{showReceivedRequests}</ul>
+        </div>
+        <div className="friendlist friends">
             <h2 className="friend-list-label">Your Friends:</h2>
             <ul className="friend-search-results">{showFriends}</ul> 
         </div>

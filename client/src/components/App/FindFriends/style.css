@@ -1,18 +1,10 @@
-.search-container {
-    margin-top: 40px;
-    min-height: 90vh;
-    width: 100%;
-    padding: 10vh 10vh 18vh;
-    background-color: #cfc9c9;
-    border: 2px solid black;
-    box-shadow: 4px 4px black;
-}
 
 .friend-search-field label {
     color: #4e6e6a;
     border: 2px solid #4e6e6a;
-    padding: 2px 4px;
-    font-size: 1.2em;
+    padding: 4px 6px;
+    font-size: 1em;
+    text-transform: uppercase;
 }
 
 .friend-search-field input {
@@ -21,13 +13,12 @@
     background-color: transparent;
     font-size: 1.12em;
     padding: 2px 8px;
-    color: #fff;
+    color: #000;
     box-shadow: 4px 4px #4e6e6a;
 }
 
 .friend-search-results {
     margin-top: 4vh;
-    width: 90vw;
     display: flex;
     flex-flow: row wrap;
 }
@@ -40,7 +31,6 @@
 
 .recent-user-list {
     margin-top: 1vh;
-    width: 90vw;
     display: flex;
     flex-flow: row wrap;
 }
@@ -76,7 +66,7 @@
 .search-container > h4 {
     margin-top: 20vh;
     color: #ac4040;
-    font-size: 1.3em;
+    font-size: 1.4em;
     padding-bottom: 2px;
     border-bottom: 4px solid #ac4040;
     width: 400px;

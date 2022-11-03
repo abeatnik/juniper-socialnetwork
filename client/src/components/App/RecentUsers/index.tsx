@@ -27,8 +27,10 @@ const RecentUsers = () => {
 
     return (
         <>
-            <h4 className="result-heading">Check out who just joined!</h4>
-            <ul className="recent-user-list">{recentUsersList}</ul>
+            <div className="recent">
+                <h4 className="result-heading">Check out who just joined!</h4>
+                <ul className="recent-user-list">{recentUsersList}</ul>
+            </div>
         </>
     );
 };

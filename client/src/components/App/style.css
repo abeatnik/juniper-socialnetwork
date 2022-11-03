@@ -1,9 +1,55 @@
 .app-main {
     justify-self: center;
     width: 98.6vw;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2vw 60vw 2vw 34vw 2vw;
 }
 
 .profile {
+    width: 60vw;
+    max-height: 70vh;
+    grid-column: 2/3;
+    padding: 5vw 3vw 5vw 2vw;
+    /* background-color: #cfc9c9;
+    border: 2px solid black;
+    box-shadow: 4px 4px black; */
+    margin-top: 40px;
+}
+
+.profile-other {
+    width: 60vw;
+    grid-column: 2/3;
+    padding: 5vw 3vw 5vw 2vw;
+    /* background-color: #cfc9c9;
+    border: 2px solid black;
+    box-shadow: 4px 4px black; */
+    margin-top: 40px;
+}
+
+.search-container {
+    margin-top: 40px;
+    grid-column: 2/3;
+    padding: 10vh 2vw;
+    /* background-color: #cfc9c9; */
+    /* border: 2px solid black;
+    box-shadow: 4px 4px black; */
+}
+
+.recent {
+    grid-column: 4/5;
+    margin-top: 20.5vh;
+    padding: 0vw 2vw 0vw 5vw;
+}
+
+.friends {
+    border-top: 2px solid black;
+    margin-top: 20vh;
+    grid-column: 2/3;
+    padding: 0 2vw; 
+}
+
+.requests {
+    grid-column: 4/5;
+    padding: 0vw 2vw 0vw 5vw;
+    margin-top: 6vh;
 }

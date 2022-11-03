@@ -69,6 +69,7 @@ const App = () => {
                                 updateBio={updateBio}
                             />
                         </div>
+                        <Friendships />
                     </Route>
                     <Route path="/people/:search?">
                         <FindFriends />

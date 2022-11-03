@@ -11,18 +11,18 @@ const Navigation = (props: {
     togglePopup: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
     return (
-        <>
+        <>  
             <div className="logo-small">
                 <Logo />
             </div>
-            <UserList />
-            <FriendList />
-            <Logout />
-            <div id="profile-small">
-                <ProfilePic
+            <div className="right">
+                <div className="nav-button"><UserList /></div>
+                <div className="nav-button"><Logout /></div>
+                <div id="profile-small">
+                    <ProfilePic
                     userData={props.userData}
-                    togglePopup={props.togglePopup}
-                />
+                    togglePopup={props.togglePopup}/>
+                </div>
             </div>
         </>
     );

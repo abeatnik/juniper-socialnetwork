@@ -15,7 +15,7 @@ const FriendComponent = ({ friend }: FriendComponentProps) => {
 
     return (
         <>
-            <div className="avatar" onClick={showProfile}>
+            <div className="avatar-friend" onClick={showProfile}>
                 <img src={friend.url || "/assets/astronaut.svg"} alt={friend.first + " " + friend.last} />
             </div>
             <p>

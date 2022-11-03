@@ -1,0 +1,18 @@
+.header .right {
+    display: flex;
+    align-items: flex-end;
+}
+
+.header .right .nav-button {
+    margin-bottom: 3px;
+    margin-left: 6px;
+}
+
+
+.header .right .nav-button .button-container button {
+    background-color: transparent;
+}
+
+.header .right .nav-button .button-container button:hover {
+    background-color: #EEE;
+}
