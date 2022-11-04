@@ -46,7 +46,7 @@ io.on('connection', async (socket) => {
 
     socket.on('globalMessage', async (data: {message : string}) => {
         const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
-        const {first, last, url} = await db.getUserInfo(userId);
+        const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
         socket.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
     })
 

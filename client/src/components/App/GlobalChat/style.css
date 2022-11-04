@@ -1,0 +1,69 @@
+
+.chat-container {
+    margin-top: 7vh;
+    width: 65vw;
+    padding: 1vw;
+    grid-column: 2/3;
+    box-shadow: 0 30px 40px rgba(0, 0, 0, 0.08), 0 -30px 40px rgba(0, 0, 0, 0.08);
+}
+
+.chat-container .messages {
+    height: 60vh;
+    width: 100%;
+    overflow: scroll;
+    padding-top: 4vh;
+    
+}
+
+.chat-container .messages li {
+    display: flex;
+    margin-bottom: 3vh;
+    margin-left: 2vw;
+}
+
+.new-message textarea {
+    margin-top: 1vw;
+    width: 100%;
+    padding: 1vw;
+    resize: none;
+    overflow: scroll;
+    height: 10vh;
+}
+
+.messages .avatar-message {
+    height: 5vw;
+    width: 5vw;
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid dashed;
+    overflow: hidden;
+}
+
+.messages .avatar-message img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.messages .text-box {
+    margin-left: 1vw;
+    width: 80%;
+}
+
+.messages .text-box span:first-child {
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: #555555;
+}
+
+.messages .text-box span:nth-child(2) {
+    float: right;
+    font-size: 0.8em;
+    color: #555555;
+
+}
+
+.messages .text-box p {
+    text-align: justify;
+}

@@ -16,8 +16,10 @@ const MessageComponent = ({message}: MessageComponentProps) => {
             <div className="avatar-message" onClick={showProfile}>
                 <img src={message.url || "/assets/astronaut.svg"} alt={message.first + " " + message.last} />
             </div>
-            <p><span>{message.first} {message.last}</span><span> {"at " + new Date(message.created_at).toLocaleTimeString()}</span></p>
-            <p>{message.message}</p>
+            <div className="text-box">
+                <span>{message.first} {message.last}</span><span> {new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</span>
+                <p>{message.message}</p>
+            </div>
         </>
     );
 };

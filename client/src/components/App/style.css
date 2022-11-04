@@ -37,18 +37,17 @@
 
 .recent {
     grid-column: 4/5;
-    margin-top: 20.5vh;
     padding: 0vw 2vw 0vw 5vw;
+    margin-top: 10vh;
 }
 
 .friends {
-    border-top: 2px solid black;
     grid-column: 2/3;
-    padding: 0 2vw; 
+    padding-top: 10vh; 
 }
 
 .requests {
     grid-column: 4/5;
-    padding: 0vw 2vw 0vw 5vw;
-    margin-top: 6vh;
+    padding: 0vw 2vh 0vw 5vh;
+    margin-top: 10vh;
 }
