@@ -3,6 +3,7 @@ import fs from "fs";
 import multer from "multer";
 import uidSafe from "uid-safe";
 import * as express from "express";
+import cookieSession from "cookie-session";
 import aws from "aws-sdk";
 const s3 = new aws.S3({
     accessKeyId: process.env.AWS_KEY,
@@ -46,3 +47,11 @@ export const s3Uploader = (
         next();
     });
 };
+
+
+export const cookieSessionMW = cookieSession({
+        secret: process.env.SESSION_SECRET,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+        sameSite: true,
+        signed: false,
+    })

@@ -1,10 +1,5 @@
 import {Reducer} from "redux";
 
-
-export interface StateInterface {
-    friendships : Friendship[],
-}
-
 export interface Friendship {
     id: string;
     first: string;

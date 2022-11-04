@@ -2,10 +2,10 @@ import express from "express";
 const app = express();
 import compression from "compression";
 import path from "path";
-import cookieSession from "cookie-session";
-import Helmet from "helmet";
+import { cookieSessionMW } from "./middleware";
 import * as db from "./db";
 import * as dotenv from "dotenv";
+dotenv.config();
 import cryptoRandomString, { async } from "crypto-random-string";
 import { QueryResult } from "pg";
 import { uploader, s3Uploader } from "./middleware";
@@ -13,23 +13,44 @@ import {
     User,
     UserRelation,
 } from "../client/src/components/component-interfaces";
-import {Friendship} from "../client/src/redux/friendships.slice";
+import {Friendship} from "../client/src/redux/friendships/slice";
 import http from "http";
 import { Server } from "socket.io";
+import { idText } from "typescript";
+import { Socket } from "socket.io";
+import { Request, Response, NextFunction } from "express";
 const httpServer =  http.createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+    cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]}, 
+    allowRequest: (req, callback) => {
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"))
+    },
+});
+io.use((socket, next) => {
+    cookieSessionMW(socket.request as Request, {} as Response, next as NextFunction);
+});
 
-dotenv.config();
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-    cookieSession({
-        secret: process.env.SESSION_SECRET,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-        signed: false,
+app.use(cookieSessionMW);
+
+io.on('connection', async (socket) => {
+    const {userId} = socket.request.session;
+    if(!userId){
+        return  socket.disconnect(true);
+    } 
+    const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
+    socket.emit('globalMessages', latestMessages);
+
+    socket.on('globalMessage', async (data: {message : string}) => {
+        const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
+        const {first, last, url} = await db.getUserInfo(userId);
+        socket.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
     })
-);
+
+})
 
 //can't use contentSecurityPolicy feature bc I don't know how to set an exception, not only for a specific link but a link that starts with: https://s3.amazonaws.com/spicedling
 // app.use(
@@ -331,6 +352,6 @@ app.get("*", function (req, res): void {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function (): void {
+httpServer.listen(process.env.PORT || 3001, function (): void {
     console.log("I'm listening.");
 });

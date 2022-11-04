@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { removeFriendship } from "../../../redux/friendships.slice";
+import { removeFriendship } from "../../../redux/friendships/slice";
 
 const RejectButton = (props: { ownerId: string, setRelation: React.MouseEventHandler<HTMLButtonElement>}) => {
     const dispatch = useDispatch();

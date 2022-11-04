@@ -43,7 +43,6 @@
 
 .friends {
     border-top: 2px solid black;
-    margin-top: 20vh;
     grid-column: 2/3;
     padding: 0 2vw; 
 }

@@ -4,6 +4,7 @@ import Logout from "../Logout";
 import { User } from "../../component-interfaces";
 import UserList from "../UserList";
 import FriendList from "../FriendList";
+import ChatButton from "../ChatButton";
 import "./style.css";
 
 const Navigation = (props: {
@@ -16,6 +17,8 @@ const Navigation = (props: {
                 <Logo />
             </div>
             <div className="right">
+                <div className="nav-button"><ChatButton /></div>
+                <div className="nav-button"><FriendList /></div>
                 <div className="nav-button"><UserList /></div>
                 <div className="nav-button"><Logout /></div>
                 <div id="profile-small">

@@ -1,11 +1,10 @@
 import ReactDOM from "react-dom";
 import Welcome from "./components/Welcome/index";
 import App from "./components/App/index";
-
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-
+import {initSocket} from "./socket";
 
 
 fetch("/user/id.json")
@@ -14,6 +13,8 @@ fetch("/user/id.json")
         if (!data.userId) {
             ReactDOM.render(<Welcome />, document.querySelector("main"));
         } else {
+            // set up socket
+            initSocket(store);
             ReactDOM.render(
                 (
                 <>

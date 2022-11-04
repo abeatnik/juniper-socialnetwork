@@ -11,6 +11,7 @@ import OtherProfile from "./OtherProfile";
 import Navigation from "./Navigation";
 import Friendships from "./Friendships";
 import "./style.css";
+import GlobalChat from "./GlobalChat";
 
 const App = () => {
     const [userData, setUserData] = useState<User>({
@@ -69,7 +70,6 @@ const App = () => {
                                 updateBio={updateBio}
                             />
                         </div>
-                        <Friendships />
                     </Route>
                     <Route path="/people/:search?">
                         <FindFriends />
@@ -77,6 +77,11 @@ const App = () => {
                     <Route path="/users/:id" children={<OtherProfile />} />
                     <Route exact path="/friends">
                         <Friendships />
+                    </Route>
+                    <Route path="/chat/global">
+                        <div className="chat-container">
+                            <GlobalChat/>
+                        </div>
                     </Route>
                 </BrowserRouter>
             </div>

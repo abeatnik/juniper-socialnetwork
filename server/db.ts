@@ -81,14 +81,14 @@ export const getRecentlyAdded = () => {
     );
 };
 
-export const findFriends = (query: string) => {
-    const sql = `SELECT first, last, id, url, bio FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT 6;`;
-    return db.query(sql, [query + "%"]);
+export const findFriends = (query: string, limit = 6) => {
+    const sql = `SELECT first, last, id, url, bio FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT $2;`;
+    return db.query(sql, [query + "%", limit]);
 };
 
-export const findFriendsFullName = (first: string, last: string) => {
-    const sql = `SELECT first, last, id, url, bio FROM users WHERE first ILIKE $1 AND last ILIKE $2 LIMIT 6;`;
-    return db.query(sql, [first + "%", last + "%"]);
+export const findFriendsFullName = (first: string, last: string, limit = 6) => {
+    const sql = `SELECT first, last, id, url, bio FROM users WHERE first ILIKE $1 AND last ILIKE $2 LIMIT $3;`;
+    return db.query(sql, [first + "%", last + "%", limit]);
 };
 
 export const insertFriendRequest = (
@@ -130,4 +130,17 @@ export const getFriendList = (userId: string) => {
 export const getFriendship = (entry: UserRelation) => {
     const sql = `SELECT accepted, users.id, users.first, users.last, users.url FROM friend_requests JOIN users ON (sender_id = users.id OR recipient_id = users.id) WHERE users.id <> $1 AND ((accepted = FALSE AND sender_id = $2 AND recipient_id = $1) OR (accepted = TRUE AND ((recipient_id = $2 OR sender_id= $2) AND (recipient_id = $1 OR sender_id= $1))));`;
     return db.query(sql, [entry.viewerId, entry.ownerId]); 
+}
+
+
+export const insertMessage = (userId: string, text: string) => {
+    const sql = `INSERT INTO messages (sender_id, message) 
+    VALUES ($1, $2)
+    RETURNING *;`;
+    return db.query(sql, [userId, text]);
+}
+
+export const getLatestMessages = (limit = 10) => {
+    const sql = `SELECT messages.id, sender_id, first, last, url, message, messages.created_at FROM messages JOIN users ON sender_id = users.id ORDER BY messages.created_at DESC LIMIT $1;`;
+    return db.query(sql, [limit]);
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import RejectButton from "../RejectButton";
-import friendshipReducer, { addFriendship, removeFriendship } from "../../../redux/friendships.slice";
+import friendshipReducer, { addFriendship, removeFriendship } from "../../../redux/friendships/slice";
 
 const FriendButton = (props: { ownerId: string }) => {
     const [relation, setRelation] = useState<

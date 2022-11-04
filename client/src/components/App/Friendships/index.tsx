@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { receiveFriendships } from "../../../redux/friendships.slice";
+import { receiveFriendships } from "../../../redux/friendships/slice";
 import { useSelector } from "react-redux";
-import {Friendship, StateInterface} from "../../../redux/friendships.slice";
+import {RootState} from "../../../redux/store";
+import {Friendship} from "../../../redux/friendships/slice";
 import FriendComponent from "../FriendComponent";
 import "./style.css";
 
 const Friendships = () => {
     const dispatch = useDispatch();
-    const friendships = useSelector((state:  StateInterface)=> {
+    const friendships = useSelector((state: RootState)=> {
         return state.friendships});
 
     useEffect(()=> {
@@ -19,8 +20,8 @@ const Friendships = () => {
         });
     }, [])
 
-    const friends: Friendship[] = friendships && friendships.length>=1 ? friendships.filter(friend => friend.accepted === true): [];
-    const receivedRequests: Friendship[] =  (friendships && friendships.length>=1) ? friendships.filter(friend => friend.accepted === false) : [];
+    const friends: Friendship[] = friendships && friendships.length>=1 ? friendships.filter((friend: Friendship )=> friend.accepted === true): [];
+    const receivedRequests: Friendship[] =  (friendships && friendships.length>=1) ? friendships.filter((friend: Friendship ) => friend.accepted === false) : [];
 
     const showFriends = friends.map(friend => {
         return (
