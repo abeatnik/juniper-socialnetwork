@@ -37,19 +37,46 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieSessionMW);
 
 io.on('connection', async (socket) => {
-    const {userId} = socket.request.session;
-    if(!userId){
-        return  socket.disconnect(true);
-    } 
-    const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
-    socket.emit('globalMessages', latestMessages);
+    console.log("user connected");
 
-    socket.on('globalMessage', async (data: {message : string}) => {
-        const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
-        const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
-        socket.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
+    //onlineUser: User
+    socket.on("userOnline", async(onlineUser: User) => {
+        console.log(onlineUser);
+        console.log("userOnline received");
+        const {userId} = socket.request.session;
+        if(!userId){
+            return socket.disconnect(true);
+        } 
+        await db.userGoesOnline(userId);
+        onlineUser.online = true;
+        console.log(onlineUser);
+        socket.emit('userOnline', {onlineUser});
+
+
+        const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
+        socket.emit('globalMessages', latestMessages);
+
+        const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
+        socket.emit('onlineUsers', onlineUsers);
+
+        socket.on('globalMessage', async (data: {message : string}) => {
+            const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
+            const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
+            socket.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
+        })
+
+        socket.on('userOnline', async (onlineUser: User)=> {
+            console.log("user online");
+            
+        })
+
+        socket.on('userOffline', async (userId: string)=> {
+            console.log("logging out user");
+            await db.userGoesOffline(userId);
+            socket.emit('userOffline', userId);
+        })
+
     })
-
 })
 
 //can't use contentSecurityPolicy feature bc I don't know how to set an exception, not only for a specific link but a link that starts with: https://s3.amazonaws.com/spicedling
@@ -59,15 +86,15 @@ io.on('connection', async (socket) => {
 //     })
 // );
 
-app.use((req, res, next) => {
-    console.log("---------------------");
-    console.log("req.url:", req.url);
-    console.log("req.method:", req.method);
-    console.log("req.session:", req.session);
-    console.log("req.body:", req.body);
-    console.log("---------------------");
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log("---------------------");
+//     console.log("req.url:", req.url);
+//     console.log("req.method:", req.method);
+//     console.log("req.session:", req.session);
+//     console.log("req.body:", req.body);
+//     console.log("---------------------");
+//     next();
+// });
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
@@ -76,7 +103,7 @@ app.post("/registration.json", (req, res) => {
     db.insertUser(req.body)
         .then((entry) => {
             req.session.userId = entry.rows[0].id;
-            res.json({ success: true });
+            res.json({ success: true, onlineUser: entry.rows[0] });
         })
         .catch(() => {
             res.json({ success: false });
@@ -87,12 +114,14 @@ app.post("/login.json", (req, res) => {
     db.getUserByEmail(req.body.email)
         .then((entry) => {
             const userId = entry.rows[0].id;
+            const {id, first, last, url, bio, online} = entry.rows[0];
+            const onlineUser = {id, first, last, url, bio, online} 
             db.authenticateUser(entry.rows[0].password, req.body.password).then(
                 (authenticated) => {
                     if (authenticated) {
                         req.session.userId = userId;
                         res.json({
-                            success: true,
+                            success: true, onlineUser: onlineUser
                         });
                     } else {
                         //password does not match
@@ -108,8 +137,11 @@ app.post("/login.json", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-    req.session = null;
-    res.json();
+    const {userId} = req.session;
+    db.userGoesOffline(userId).then(() => {
+        req.session = null;
+        res.json({success: true, userId})
+    })
 });
 app.post("/reset1", (req, res) => {
     db.getUserByEmail(req.body.email).then((entry) => {
@@ -242,8 +274,8 @@ app.get("/user-info", (req, res) => {
     if (req.session.userId) {
         const { userId } = req.session;
         db.getUserInfo(userId).then((entry: QueryResult) => {
-            const { first, last, url, bio } = entry.rows[0];
-            res.json({ userData: { first, last, url, bio }, userId });
+            const { first, last, url, bio, online } = entry.rows[0];
+            res.json({ userData: { first, last, url, bio, online}, userId });
         });
     } else {
         res.json({ userId: "" });
@@ -255,7 +287,6 @@ app.get("/relation/:owner", (req, res) => {
         ownerId: req.params.owner,
         viewerId: String(req.session.userId),
     };
-    console.log("userRelation ", userRelation);
     db.getFriendRequestStatus(userRelation)
         .then((entry: QueryResult) => {
             let relation: "none" | "sent" | "received" | "friend" | null = null;
@@ -321,7 +352,7 @@ app.get("/friend-request/friend/:owner", (req, res) => {
     const viewerId = String(req.session.userId);
     const ownerId = req.params.owner;
     //preliminary implementation
-    db.cancelFriendRequest(viewerId, ownerId)
+    db.cancelFriendRequest(ownerId, viewerId)
         .then(() => {
             res.json({
                 success: true,

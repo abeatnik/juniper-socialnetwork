@@ -4,6 +4,7 @@ export interface User {
     id: string;
     url: string;
     bio: string;
+    online: boolean;
 }
 
 export interface NewUser {

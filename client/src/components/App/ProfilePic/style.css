@@ -13,8 +13,8 @@
 }
 
 #profile-small .profile-pic:hover {
-    transform: scale(1.5);
-    background-color: #cfc9c9;
+    transform: scale(1.07);
+    background-color: #dedede;
 }
 
 #profile-small button {

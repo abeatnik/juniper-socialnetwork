@@ -3,6 +3,7 @@ import "./style.css";
 
 interface UploaderProps {
     setProfilePic: Function;
+    togglePopup: Function;
 }
 
 export default class Uploader extends React.PureComponent<UploaderProps> {
@@ -25,7 +26,7 @@ export default class Uploader extends React.PureComponent<UploaderProps> {
     };
 
     goToProfile = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.target === e.currentTarget && window.location.replace("/");
+        e.target === e.currentTarget && this.props.togglePopup()
     };
 
     render() {

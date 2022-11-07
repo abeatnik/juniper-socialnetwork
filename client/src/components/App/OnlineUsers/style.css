@@ -1,0 +1,36 @@
+.online-container {
+    grid-column: 4/5;
+    max-height: 80vh;
+    padding: 4vw 2vw 0vw 5vw;
+    margin-left: 5em;
+    margin-top: 7vh;
+    overflow: scroll;
+    box-shadow: 0 30px 40px rgba(0, 0, 0, 0.08), 0 -30px 40px rgba(0, 0, 0, 0.08);
+}
+
+.online-container h4 {
+    margin-bottom: 1em;
+    font-size: 0.9em;
+}
+
+.online-container .online-user {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+
+.online-container .avatar {
+    width: 2.2em;
+    height: 2.2em;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: rgb(61, 160, 58);
+    border-style: single;
+}
+
+.online-container .online-user p {
+    text-transform: uppercase;
+    font-size: 0.7em;
+    align-self: center;
+    margin-left: 1em;
+}

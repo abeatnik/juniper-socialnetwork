@@ -16,7 +16,7 @@ export const insertUser = (user: NewUser) => {
     const sql = `
     INSERT INTO users (first, last, email, password)
     VALUES ($1, $2, $3, $4)
-    RETURNING *;
+    RETURNING id, first, last, url, online;
     `;
 
     return hashPassword(user.password)
@@ -143,4 +143,18 @@ export const insertMessage = (userId: string, text: string) => {
 export const getLatestMessages = (limit = 10) => {
     const sql = `SELECT messages.id, sender_id, first, last, url, message, messages.created_at FROM messages JOIN users ON sender_id = users.id ORDER BY messages.created_at DESC LIMIT $1;`;
     return db.query(sql, [limit]);
+}
+
+export const userGoesOnline = (userId: string) => {
+    const sql = `UPDATE users SET online=TRUE WHERE id=$1;`
+    return db.query(sql, [userId]);
+}
+
+export const userGoesOffline = (userId: string) => {
+    const sql = `UPDATE users SET online=FALSE WHERE id=$1;`
+    return db.query(sql, [userId]); 
+}
+
+export const getOnlineUsers = () => {
+    return db.query(`SELECT id, first, last, url, bio, online FROM users WHERE online=TRUE;`)
 }

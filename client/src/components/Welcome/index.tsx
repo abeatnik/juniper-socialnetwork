@@ -14,16 +14,6 @@ const Welcome = () => {
                     <div className="welcome-logo">
                         <Logo />
                     </div>
-                    <h1>Welcome!</h1>
-                    <p>
-                        Did you miss out on the early days of the World Wide
-                        Web?
-                    </p>
-                    <p>Do you feel the nostalgia? </p>
-                    <p>
-                        Connect with your friends like it's the dawning of
-                        something great.
-                    </p>
                 </div>
                 <BrowserRouter>
                     <div className="welcome-main">
@@ -38,6 +28,8 @@ const Welcome = () => {
                         </Route>
                     </div>
                 </BrowserRouter>
+                <div className="ticker1"><p>+ + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + </p></div>
+                <div className="ticker2"><p>+ + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + </p></div>
             </div>
             <div className="footer"></div>
         </>

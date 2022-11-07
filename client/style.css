@@ -37,7 +37,7 @@ h1, h2, h3, h4 {
 .button-container button {
     padding: 2px 4px;
     width: 100%;
-    background-color: #ac4040;
+    background-color: #e6e6e6;
     border: 2px solid black;
     box-shadow: 3px 3px black;
     border-radius: 0;
@@ -50,19 +50,19 @@ h1, h2, h3, h4 {
 } 
 
 .button-container.sent button {
-    background-color: #ac4040;
+    background-color: #e6e6e6;
 }
 
 
 .button-container button:hover {
-    background-color: #ccafaf;
+    background-color: #c5c5c5;
 }
 
 .button-container button:active {
     transform: translate(3px, 3px);
     box-shadow: none;
     border: 1px solid black;
-    background-color: #933a3a;
+    background-color: #cbcbcb;
 }
 
 .header {

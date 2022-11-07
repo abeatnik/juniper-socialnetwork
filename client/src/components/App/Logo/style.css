@@ -17,7 +17,7 @@
 }
 .logo-small .logo:hover {
     border-radius: 50%;
-    background-color: #cfc9c9;
+    background-color: #dedede;
     box-shadow: 4px 4px black;
-    transform: scale(1.4);
+    transform: scale(1.08);
 }

@@ -1,9 +1,14 @@
-import { render } from "@testing-library/react";
+import {socket} from "../../../socket";
 
 const Logout = () => {
     const userLogout = () => {
-        fetch("/logout").then(() => {
-            window.location.replace("/login");
+        fetch("/logout").then(response => response.json()).then(data => {
+            console.log(data);
+            if(data.success){
+                socket.emit('userOffline', data.userId)
+                window.location.replace("/login");
+            }
+            
         });
     };
 

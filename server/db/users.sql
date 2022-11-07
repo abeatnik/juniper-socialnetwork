@@ -8,6 +8,7 @@ CREATE TABLE users (
     password VARCHAR(60) NOT NULL,
     url VARCHAR(255),
     bio TEXT,
+    online BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

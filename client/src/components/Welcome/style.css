@@ -1,7 +1,38 @@
 .welcome-window {
-    margin-top: 10vh;
     display: flex;
-    align-items: space-around;
+    align-items: center;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top:0;
+    animation: grayscale 5s ease-in-out infinite;
+}
+
+@keyframes grayscale {
+    0% {
+        background-color: white;
+    }
+    20% {
+        background-color: rgb(237, 237, 237);
+
+    }
+    40% {
+        background-color: rgb(236, 236, 236);
+
+    }
+    60% {
+        background-color: rgb(237, 237, 237);
+
+    }
+    80% {
+        background-color: rgb(188, 188, 188);
+
+    }
+    100% {
+        background-color: rgb(237, 237, 237);
+
+    } 
 }
 
 .intro {
@@ -24,7 +55,56 @@
 }
 
 .intro .welcome-logo .logo {
+    margin-bottom: 10vh;
     height: 40vh;
+    animation: party 4s ease-in-out infinite;
+}
+
+@keyframes party {
+    0%{
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(0deg)
+    }
+    10% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(30deg)
+
+    }
+    20% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(60deg)
+
+    }
+    30% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(90deg)
+
+    }
+    40% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(120deg)
+
+    }
+    50% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(150deg)
+
+    }
+    60% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(180deg)
+
+    }
+    70% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(230deg)
+
+    }
+    80% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(280deg)
+
+    } 
+    90%{
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(320deg)
+
+    }
+    100% {
+        filter: invert(100%) sepia() saturate(10000%) hue-rotate(360deg)
+
+    }
+
 }
 
 .intro .welcome-logo img {
@@ -32,12 +112,65 @@
     object-fit: contain;
 }
 
+
+.welcome-window .ticker1 {
+    position: absolute;
+    top: 80vh;
+    height: fit-content;
+    width: 100vw;
+    border-top: 8px double black;
+    border-bottom: 8px double black;
+
+}
+
+.welcome-window .ticker2 {
+    position: absolute;
+    top: 88vh;
+    height: fit-content;
+    width: 100vw;
+    border-top: 8px double black;
+    border-bottom: 8px double black;
+
+}
+
+.welcome-window .ticker1 p {
+    position: relative;
+    left: 100vw;
+    font-size : 1.2em;
+    white-space: nowrap;
+    text-transform: uppercase;
+    animation: ticker1 40s linear infinite;
+
+}
+
+.welcome-window .ticker2 p {
+    position: relative;
+    left: -300vw;
+    font-size : 1.2em;
+    white-space: nowrap;
+    text-transform: uppercase;
+    animation: ticker2 40s linear infinite;
+
+}
+
+@keyframes ticker1 {
+    to {
+    transform: translateX(-400vw);
+    }
+}
+
+@keyframes ticker2 {
+    to {
+    transform: translateX(+400vw);
+    }
+}
+
 .welcome-main {
+    align-self: center;
     width: 30vw;
     padding: 10px;
     margin-right: 20px;
     margin-bottom: 80px;
-    height: 100vw;
 }
 
 .welcome-main {
@@ -85,8 +218,9 @@
 }
 
 .welcome-main .error {
-    color: #752f2f;
+    color: #d1332b;
     margin: 10px;
+    font-size: 0.8em;
 }
 
 .welcome-main p.switch {

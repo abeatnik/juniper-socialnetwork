@@ -11,10 +11,10 @@ fetch("/user/id.json")
     .then((response) => response.json())
     .then((data) => {
         if (!data.userId) {
+            initSocket(store);
             ReactDOM.render(<Welcome />, document.querySelector("main"));
         } else {
             // set up socket
-            initSocket(store);
             ReactDOM.render(
                 (
                 <>

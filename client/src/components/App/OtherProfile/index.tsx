@@ -12,6 +12,7 @@ const OtherProfile = () => {
         url: "",
         bio: "",
         id: "",
+        online: false,
     });
 
     useEffect(() => {

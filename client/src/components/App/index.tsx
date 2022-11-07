@@ -12,6 +12,7 @@ import Navigation from "./Navigation";
 import Friendships from "./Friendships";
 import "./style.css";
 import GlobalChat from "./GlobalChat";
+import OnlineUsers from "./OnlineUsers";
 
 const App = () => {
     const [userData, setUserData] = useState<User>({
@@ -20,6 +21,7 @@ const App = () => {
         url: "",
         bio: "",
         id: "",
+        online : false,
     });
 
     const [showUploader, setShowUploader] = useState<boolean>(false);
@@ -57,10 +59,10 @@ const App = () => {
     return (
         <>
             <div className="header">
-                <Navigation userData={userData} togglePopup={togglePopup} />
+                <Navigation userData={userData} togglePopup={()=> togglePopup()} />
             </div>
             <div className="app-main">
-                {showUploader && <Uploader setProfilePic={setProfilePic} />}
+                {showUploader && <Uploader setProfilePic={setProfilePic} togglePopup={togglePopup}/>}
                 <BrowserRouter>
                     <Route exact path="/">
                         <div className="profile">
@@ -81,6 +83,9 @@ const App = () => {
                     <Route path="/chat/global">
                         <div className="chat-container">
                             <GlobalChat/>
+                        </div>
+                        <div className="online-container">
+                            <OnlineUsers />
                         </div>
                     </Route>
                 </BrowserRouter>
