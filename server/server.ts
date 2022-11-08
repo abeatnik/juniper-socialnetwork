@@ -18,6 +18,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { idText } from "typescript";
 import { Socket } from "socket.io";
+import {addOnlineUser, checkOnlineUsers} from "./check-online-users";
 import { Request, Response, NextFunction } from "express";
 const httpServer =  http.createServer(app);
 const io = new Server(httpServer, {
@@ -41,25 +42,34 @@ io.on('connection', async (socket) => {
     if(!userId){
         return socket.disconnect(true);
         }   
+    const allSockets = await io.allSockets();
+    const socketsArray = Array.from(allSockets.values());
+    checkOnlineUsers(socketsArray);
+
+    const onlineUser = await db.getUserInfo(userId).then((entry: QueryResult) => entry.rows[0]);
+        addOnlineUser(onlineUser.id, socket.id);
+        io.emit('userOnline', onlineUser);
     
     const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
         socket.emit('globalMessages', latestMessages);
     
     const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
-        io.emit('onlineUsers', onlineUsers);
+        socket.emit('onlineUsers', onlineUsers);
 
     socket.on('globalMessage', async (data: {message : string}) => {
             const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
             const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
             io.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
         })
-        
-    socket.on('userWentOffline', async () => {
+
+    socket.on('userWentOffline', async (userId :string) => {
             console.log("user went offline");
-            const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
-            io.emit('onlineUsers', onlineUsers)
+            io.emit('userOffline', userId)
             
         })
+    socket.on("disconnect", () => {
+        
+    });
 })
 
 
@@ -209,13 +219,13 @@ app.get("/recently-added", (req, res) => {
 });
 
 app.get("/find/:query", (req, res) => {
+    const {userId} = req.session;
     const searchString = req.params.query;
     const searchArr = searchString.split("-");
-    console.log("searchArr", searchArr);
     if (searchArr.length === 1) {
         db.findFriends(searchArr[0])
             .then((entries: QueryResult) => {
-                const findFriendsResults: User[] = entries.rows;
+                const findFriendsResults: User[] = entries.rows.filter((user: User)=> user.id !== userId);
                 findFriendsResults.length === 0
                     ? res.json({ success: false })
                     : res.json({ success: true, findFriendsResults });
@@ -235,18 +245,22 @@ app.get("/find/:query", (req, res) => {
 
 app.get("/user-profile/:id", (req, res) => {
     const profileId = req.params.id;
-    db.getUserInfo(profileId)
+    const {userId} = req.session;
+    if (userId == profileId) {
+        return res.json({ success: false, ownProfile: true });
+    } else {
+        db.getUserInfo(profileId)
         .then((entry: QueryResult) => {
-            const userData: User = entry.rows[0];
-            if (userData.id === profileId) {
-                res.json({ success: false, ownProfile: true });
-            } else if (userData.id) {
+            const userData: User | {} = entry.rows[0] || {};
+            if (userData.hasOwnProperty("id")) {
                 res.json({ success: true, userData });
             } else {
-                res.json({ sucess: false, ownProfile: false });
+                res.json({ success: false, ownProfile: false });
             }
         })
         .catch((err: Error) => console.log(err));
+    }
+    
 });
 
 app.get("/user/id.json", (req, res) => {

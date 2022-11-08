@@ -29,6 +29,7 @@ const OtherProfile = () => {
                     }
                 }
             });
+
     }, [paramId]);
 
     return (

@@ -19,10 +19,10 @@ export const removeOnlineUser = (id: string) => {
 
 }
 
-export const addOnlineUser = (id:string) => {
+export const addOnlineUser = (onlineUser: User) => {
     return {
         type : "online-users/add",
-        payload : {id},
+        payload : {onlineUser},
     }
 }
 
@@ -34,7 +34,8 @@ const onlineUsersReducer: Reducer = (state = initialState, action) => {
         return state.filter((onlineUser: User )=> onlineUser.id !== action.payload.id);
         }
     if (action.type === "online-users/add"){
-        return state.filter((onlineUser: User) => onlineUser.id !== action.payload.id);
+        const filteredUsers = state.filter((user: User) => user.id !== action.payload.onlineUser.id);
+        return [action.payload.onlineUser, ...filteredUsers]
     }
     return state;
 }

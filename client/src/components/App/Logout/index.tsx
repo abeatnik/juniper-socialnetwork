@@ -5,7 +5,7 @@ const Logout = () => {
     const userLogout = () => {
         fetch("/logout").then(response => response.json()).then(data => {
             if(data.success){
-                socket.emit('userWentOffline');
+                socket.emit('userWentOffline', data.userId);
                 window.location.replace("/login");
             }
             

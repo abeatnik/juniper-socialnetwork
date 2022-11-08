@@ -23,13 +23,12 @@ export const initSocket = (store: Store) => {
         store.dispatch(receiveOnlineUsers(data));
     })
 
-    socket.on('userOnline', (data: string)=> {
-        console.log("online", data);
-        store.dispatch(addOnlineUser(data));
+    socket.on('userOnline', (onlineUser: User)=> {
+        store.dispatch(addOnlineUser(onlineUser));
     })
 
-    socket.on('userOffline', (data: string)=> {
-        store.dispatch(removeOnlineUser(data));
+    socket.on('userOffline', (userId: string)=> {
+        store.dispatch(removeOnlineUser(userId));
     })
 }
     return socket;
