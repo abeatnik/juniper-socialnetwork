@@ -39,22 +39,30 @@ app.use(cookieSessionMW);
 io.on('connection', async (socket) => {
     const {userId} = socket.request.session;
     if(!userId){
-            return socket.disconnect(true);
-        } 
+        return socket.disconnect(true);
+        }   
     
     const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
         socket.emit('globalMessages', latestMessages);
     
     const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
-        socket.emit('onlineUsers', onlineUsers);
+        io.emit('onlineUsers', onlineUsers);
 
     socket.on('globalMessage', async (data: {message : string}) => {
             const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
             const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
             io.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
         })
-
+        
+    socket.on('userWentOffline', async () => {
+            console.log("user went offline");
+            const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
+            io.emit('onlineUsers', onlineUsers)
+            
+        })
 })
+
+
 
 //can't use contentSecurityPolicy feature bc I don't know how to set an exception, not only for a specific link but a link that starts with: https://s3.amazonaws.com/spicedling
 // app.use(
