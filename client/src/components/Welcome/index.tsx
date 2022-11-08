@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Registration from "./Registration/index";
 import Login from "./Login/index";
 import ResetPassword from "./ResetPassword";
@@ -25,6 +25,9 @@ const Welcome = () => {
                         </Route>
                         <Route exact path="/reset">
                             <ResetPassword />
+                        </Route>
+                        <Route path="*">
+                            <Redirect to="/login" />
                         </Route>
                     </div>
                 </BrowserRouter>

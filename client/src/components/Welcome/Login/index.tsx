@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { socket} from "../../../socket";
 import store from "../../../redux/store";
+import {initSocket} from "../../../socket";
 
 interface UserAuthInfo {
     email: string;
@@ -58,6 +58,7 @@ const Login = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
+                        const socket = initSocket(store);
                         const {onlineUser} = data;
                         socket.emit("userOnline", onlineUser);
                         window.location.href = "/";

@@ -13,6 +13,8 @@ import Friendships from "./Friendships";
 import "./style.css";
 import GlobalChat from "./GlobalChat";
 import OnlineUsers from "./OnlineUsers";
+import { initSocket } from "../../socket";
+import store from "../../redux/store";
 
 const App = () => {
     const [userData, setUserData] = useState<User>({
@@ -28,6 +30,7 @@ const App = () => {
 
     useEffect(() => {
         updateProfile();
+        initSocket(store);
     }, []);
 
     const updateProfile = () => {

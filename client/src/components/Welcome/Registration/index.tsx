@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { socket } from "../../../socket";
 import { NewUser } from "../../component-interfaces";
 import store from "../../../redux/store";
+import {initSocket} from "../../../socket";
 
 
 interface ErrorObject {
@@ -84,8 +84,6 @@ const Registration = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        const {onlineUser} = data;
-                        socket.emit("userOnline", onlineUser)
                         window.location.href = "/";
                     } else {
                         window.alert("Registration failed");

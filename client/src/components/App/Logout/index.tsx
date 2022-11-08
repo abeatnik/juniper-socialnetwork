@@ -1,11 +1,8 @@
-import {socket} from "../../../socket";
 
 const Logout = () => {
     const userLogout = () => {
         fetch("/logout").then(response => response.json()).then(data => {
-            console.log(data);
             if(data.success){
-                socket.emit('userOffline', data.userId)
                 window.location.replace("/login");
             }
             

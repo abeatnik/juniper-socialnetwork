@@ -37,46 +37,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieSessionMW);
 
 io.on('connection', async (socket) => {
-    console.log("user connected");
-
-    //onlineUser: User
-    socket.on("userOnline", async(onlineUser: User) => {
-        console.log(onlineUser);
-        console.log("userOnline received");
-        const {userId} = socket.request.session;
-        if(!userId){
+    const {userId} = socket.request.session;
+    if(!userId){
             return socket.disconnect(true);
         } 
-        await db.userGoesOnline(userId);
-        onlineUser.online = true;
-        console.log(onlineUser);
-        socket.emit('userOnline', {onlineUser});
-
-
-        const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
+    
+    const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
         socket.emit('globalMessages', latestMessages);
-
-        const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
+    
+    const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
         socket.emit('onlineUsers', onlineUsers);
 
-        socket.on('globalMessage', async (data: {message : string}) => {
+    socket.on('globalMessage', async (data: {message : string}) => {
             const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
             const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
-            socket.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
+            io.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
         })
 
-        socket.on('userOnline', async (onlineUser: User)=> {
-            console.log("user online");
-            
-        })
-
-        socket.on('userOffline', async (userId: string)=> {
-            console.log("logging out user");
-            await db.userGoesOffline(userId);
-            socket.emit('userOffline', userId);
-        })
-
-    })
 })
 
 //can't use contentSecurityPolicy feature bc I don't know how to set an exception, not only for a specific link but a link that starts with: https://s3.amazonaws.com/spicedling
@@ -120,6 +97,8 @@ app.post("/login.json", (req, res) => {
                 (authenticated) => {
                     if (authenticated) {
                         req.session.userId = userId;
+                        db.userGoesOnline(userId);
+                        onlineUser.online = true;
                         res.json({
                             success: true, onlineUser: onlineUser
                         });
@@ -138,6 +117,7 @@ app.post("/login.json", (req, res) => {
 
 app.get("/logout", (req, res) => {
     const {userId} = req.session;
+    console.log("logging out: ", userId);
     db.userGoesOffline(userId).then(() => {
         req.session = null;
         res.json({success: true, userId})
