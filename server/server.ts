@@ -115,7 +115,13 @@ app.post("/registration.json", (req, res) => {
     db.insertUser(req.body)
         .then((entry) => {
             req.session.userId = entry.rows[0].id;
-            res.json({ success: true, onlineUser: entry.rows[0] });
+            const onlineUser = entry.rows[0];
+            db.userGoesOnline(onlineUser.id);
+            onlineUser.online = true;
+            res.json({
+                success: true,
+                onlineUser: onlineUser,
+            });
         })
         .catch(() => {
             res.json({ success: false });

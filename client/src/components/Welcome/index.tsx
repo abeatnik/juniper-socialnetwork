@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Registration from "./Registration/index";
 import Login from "./Login/index";
 import ResetPassword from "./ResetPassword";
-import Logo from "../App/Logo";
 import "./style.css";
 
 const Welcome = () => {
@@ -12,7 +11,9 @@ const Welcome = () => {
             <div className="welcome-window">
                 <div className="intro">
                     <div className="welcome-logo">
-                        <Logo />
+                        <div className="logo">
+                            <img src="/assets/heart.svg" alt="logo" />
+                        </div>
                     </div>
                 </div>
                 <BrowserRouter>
