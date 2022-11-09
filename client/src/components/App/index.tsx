@@ -23,7 +23,7 @@ const App = () => {
         url: "",
         bio: "",
         id: "",
-        online : false,
+        online: false,
     });
 
     const [showUploader, setShowUploader] = useState<boolean>(false);
@@ -57,15 +57,25 @@ const App = () => {
             ...userData,
             url: newUrl,
         });
+        togglePopup();
+        location.reload();
     };
 
     return (
         <>
             <div className="header">
-                <Navigation userData={userData} togglePopup={()=> togglePopup()} />
+                <Navigation
+                    userData={userData}
+                    togglePopup={() => togglePopup()}
+                />
             </div>
             <div className="app-main">
-                {showUploader && <Uploader setProfilePic={setProfilePic} togglePopup={togglePopup}/>}
+                {showUploader && (
+                    <Uploader
+                        setProfilePic={setProfilePic}
+                        togglePopup={togglePopup}
+                    />
+                )}
                 <BrowserRouter>
                     <Route exact path="/">
                         <div className="profile">
@@ -85,7 +95,7 @@ const App = () => {
                     </Route>
                     <Route path="/chat/global">
                         <div className="chat-container">
-                            <GlobalChat/>
+                            <GlobalChat />
                         </div>
                         <div className="online-container">
                             <OnlineUsers />

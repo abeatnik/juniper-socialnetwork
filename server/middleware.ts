@@ -42,16 +42,22 @@ export const s3Uploader = (
             ContentLength: size,
         })
         .promise();
-    insertRemoteImage.then(() => {
-        fs.unlinkSync(path);
-        next();
-    });
+
+    try {
+        insertRemoteImage
+            .then(() => {
+                fs.unlinkSync(path);
+                next();
+            })
+            .catch((error: Error) => console.log(error));
+    } catch {
+        console.log("file too large");
+    }
 };
 
-
 export const cookieSessionMW = cookieSession({
-        secret: process.env.SESSION_SECRET,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-        signed: false,
-    })
+    secret: process.env.SESSION_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: true,
+    signed: false,
+});

@@ -2,77 +2,94 @@ import express from "express";
 const app = express();
 import compression from "compression";
 import path from "path";
-import { cookieSessionMW } from "./middleware";
 import * as db from "./db";
 import * as dotenv from "dotenv";
 dotenv.config();
 import cryptoRandomString, { async } from "crypto-random-string";
 import { QueryResult } from "pg";
-import { uploader, s3Uploader } from "./middleware";
+import { uploader, s3Uploader, cookieSessionMW } from "./middleware";
 import {
     User,
     UserRelation,
 } from "../client/src/components/component-interfaces";
-import {Friendship} from "../client/src/redux/friendships/slice";
+import { Friendship } from "../client/src/redux/friendships/slice";
 import http from "http";
 import { Server } from "socket.io";
 import { idText } from "typescript";
 import { Socket } from "socket.io";
-import {addOnlineUser, checkOnlineUsers} from "./check-online-users";
+import { addOnlineUser, checkOnlineUsers } from "./check-online-users";
 import { Request, Response, NextFunction } from "express";
-const httpServer =  http.createServer(app);
+const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
     cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]}, 
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+    },
     allowRequest: (req, callback) => {
-        callback(null, req.headers.referer.startsWith("http://localhost:3000"))
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"));
     },
 });
 io.use((socket, next) => {
-    cookieSessionMW(socket.request as Request, {} as Response, next as NextFunction);
+    cookieSessionMW(
+        socket.request as Request,
+        {} as Response,
+        next as NextFunction
+    );
 });
 
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieSessionMW);
 
-io.on('connection', async (socket) => {
-    const {userId} = socket.request.session;
-    if(!userId){
+io.on("connection", async (socket) => {
+    const { userId } = socket.request.session;
+    if (!userId) {
         return socket.disconnect(true);
-        }   
+    }
     const allSockets = await io.allSockets();
     const socketsArray = Array.from(allSockets.values());
     checkOnlineUsers(socketsArray);
 
-    const onlineUser = await db.getUserInfo(userId).then((entry: QueryResult) => entry.rows[0]);
-        addOnlineUser(onlineUser.id, socket.id);
-        io.emit('userOnline', onlineUser);
-    
-    const latestMessages = await db.getLatestMessages().then((entries: QueryResult) => entries.rows);
-        socket.emit('globalMessages', latestMessages);
-    
-    const onlineUsers = await db.getOnlineUsers().then((entries: QueryResult) => entries.rows);
-        socket.emit('onlineUsers', onlineUsers);
+    const onlineUser = await db
+        .getUserInfo(userId)
+        .then((entry: QueryResult) => entry.rows[0]);
+    addOnlineUser(onlineUser.id, socket.id);
+    io.emit("userOnline", onlineUser);
 
-    socket.on('globalMessage', async (data: {message : string}) => {
-            const {id, sender_id, message, created_at} = await db.insertMessage(userId, data.message).then((entries: QueryResult) => entries.rows[0])
-            const {first, last, url} = await db.getUserInfo(userId).then((entries: QueryResult) => entries.rows[0]);
-            io.emit('globalMessage', {id, sender_id, first, last, url, message, created_at});
-        })
+    const latestMessages = await db
+        .getLatestMessages()
+        .then((entries: QueryResult) => entries.rows);
+    socket.emit("globalMessages", latestMessages);
 
-    socket.on('userWentOffline', async (userId :string) => {
-            console.log("user went offline");
-            io.emit('userOffline', userId)
-            
-        })
-    socket.on("disconnect", () => {
-        
+    const onlineUsers = await db
+        .getOnlineUsers()
+        .then((entries: QueryResult) => entries.rows);
+    socket.emit("onlineUsers", onlineUsers);
+
+    socket.on("globalMessage", async (data: { message: string }) => {
+        const { id, sender_id, message, created_at } = await db
+            .insertMessage(userId, data.message)
+            .then((entries: QueryResult) => entries.rows[0]);
+        const { first, last, url } = await db
+            .getUserInfo(userId)
+            .then((entries: QueryResult) => entries.rows[0]);
+        io.emit("globalMessage", {
+            id,
+            sender_id,
+            first,
+            last,
+            url,
+            message,
+            created_at,
+        });
     });
-})
 
-
+    socket.on("userWentOffline", async (userId: string) => {
+        console.log("user went offline");
+        io.emit("userOffline", userId);
+    });
+    socket.on("disconnect", () => {});
+});
 
 //can't use contentSecurityPolicy feature bc I don't know how to set an exception, not only for a specific link but a link that starts with: https://s3.amazonaws.com/spicedling
 // app.use(
@@ -109,8 +126,8 @@ app.post("/login.json", (req, res) => {
     db.getUserByEmail(req.body.email)
         .then((entry) => {
             const userId = entry.rows[0].id;
-            const {id, first, last, url, bio, online} = entry.rows[0];
-            const onlineUser = {id, first, last, url, bio, online} 
+            const { id, first, last, url, bio, online } = entry.rows[0];
+            const onlineUser = { id, first, last, url, bio, online };
             db.authenticateUser(entry.rows[0].password, req.body.password).then(
                 (authenticated) => {
                     if (authenticated) {
@@ -118,7 +135,8 @@ app.post("/login.json", (req, res) => {
                         db.userGoesOnline(userId);
                         onlineUser.online = true;
                         res.json({
-                            success: true, onlineUser: onlineUser
+                            success: true,
+                            onlineUser: onlineUser,
                         });
                     } else {
                         //password does not match
@@ -134,12 +152,12 @@ app.post("/login.json", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-    const {userId} = req.session;
+    const { userId } = req.session;
     console.log("logging out: ", userId);
     db.userGoesOffline(userId).then(() => {
         req.session = null;
-        res.json({success: true, userId})
-    })
+        res.json({ success: true, userId });
+    });
 });
 app.post("/reset1", (req, res) => {
     db.getUserByEmail(req.body.email).then((entry) => {
@@ -219,13 +237,15 @@ app.get("/recently-added", (req, res) => {
 });
 
 app.get("/find/:query", (req, res) => {
-    const {userId} = req.session;
+    const { userId } = req.session;
     const searchString = req.params.query;
     const searchArr = searchString.split("-");
     if (searchArr.length === 1) {
         db.findFriends(searchArr[0])
             .then((entries: QueryResult) => {
-                const findFriendsResults: User[] = entries.rows.filter((user: User)=> user.id !== userId);
+                const findFriendsResults: User[] = entries.rows.filter(
+                    (user: User) => user.id !== userId
+                );
                 findFriendsResults.length === 0
                     ? res.json({ success: false })
                     : res.json({ success: true, findFriendsResults });
@@ -245,22 +265,21 @@ app.get("/find/:query", (req, res) => {
 
 app.get("/user-profile/:id", (req, res) => {
     const profileId = req.params.id;
-    const {userId} = req.session;
+    const { userId } = req.session;
     if (userId == profileId) {
         return res.json({ success: false, ownProfile: true });
     } else {
         db.getUserInfo(profileId)
-        .then((entry: QueryResult) => {
-            const userData: User | {} = entry.rows[0] || {};
-            if (userData.hasOwnProperty("id")) {
-                res.json({ success: true, userData });
-            } else {
-                res.json({ success: false, ownProfile: false });
-            }
-        })
-        .catch((err: Error) => console.log(err));
+            .then((entry: QueryResult) => {
+                const userData: User | {} = entry.rows[0] || {};
+                if (userData.hasOwnProperty("id")) {
+                    res.json({ success: true, userData });
+                } else {
+                    res.json({ success: false, ownProfile: false });
+                }
+            })
+            .catch((err: Error) => console.log(err));
     }
-    
 });
 
 app.get("/user/id.json", (req, res) => {
@@ -277,7 +296,7 @@ app.get("/user-info", (req, res) => {
         const { userId } = req.session;
         db.getUserInfo(userId).then((entry: QueryResult) => {
             const { first, last, url, bio, online } = entry.rows[0];
-            res.json({ userData: { first, last, url, bio, online}, userId });
+            res.json({ userData: { first, last, url, bio, online }, userId });
         });
     } else {
         res.json({ userId: "" });
@@ -292,7 +311,7 @@ app.get("/relation/:owner", (req, res) => {
     db.getFriendRequestStatus(userRelation)
         .then((entry: QueryResult) => {
             let relation: "none" | "sent" | "received" | "friend" | null = null;
-            
+
             if (entry.rows[0].id) {
                 if (!entry.rows[0].accepted) {
                     if (userRelation.ownerId == entry.rows[0].sender_id) {
@@ -364,22 +383,21 @@ app.get("/friend-request/friend/:owner", (req, res) => {
         .catch(() => res.json({ success: false, newRelation: null }));
 });
 
-app.get("/friendships", (req,res) => {
-    const {userId} = req.session;
-    db.getFriendList(userId).then((entries: QueryResult)=> {
-        res.json({success: true, friendships: entries.rows});
-    })
-})
+app.get("/friendships", (req, res) => {
+    const { userId } = req.session;
+    db.getFriendList(userId).then((entries: QueryResult) => {
+        res.json({ success: true, friendships: entries.rows });
+    });
+});
 
-app.get("/friend-relation/:owner", (req,res)=>{
+app.get("/friend-relation/:owner", (req, res) => {
     const viewerId = String(req.session.userId);
     const ownerId = req.params.owner;
-    db.getFriendship({viewerId, ownerId}).then((entry: QueryResult) => {
+    db.getFriendship({ viewerId, ownerId }).then((entry: QueryResult) => {
         const friendInfo: Friendship[] = entry.rows[0];
-        res.json({success: true, friendInfo})
-    })
-
-})
+        res.json({ success: true, friendInfo });
+    });
+});
 
 app.get("*", function (req, res): void {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

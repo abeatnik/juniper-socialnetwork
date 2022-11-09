@@ -12,6 +12,7 @@ export default class Uploader extends React.PureComponent<UploaderProps> {
     handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const file = this.fileInput.current.files[0];
+        console.log(file);
         const formData = new FormData();
         formData.append("file", file);
         fetch("/profile-pic", {
@@ -26,7 +27,7 @@ export default class Uploader extends React.PureComponent<UploaderProps> {
     };
 
     goToProfile = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.target === e.currentTarget && this.props.togglePopup()
+        e.target === e.currentTarget && this.props.togglePopup();
     };
 
     render() {
