@@ -1,5 +1,3 @@
-
-
 .profile-view {
     display: flex;
     /* background-color: #FFF;
@@ -12,7 +10,8 @@
     padding: 2px;
     max-height: 20.5vw;
     max-width: 21vw;
-    box-shadow:  3px 3px #000, 0 30px 40px rgba(0, 0, 0, 0.15), 0 -30px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px #000, 0 30px 40px rgba(0, 0, 0, 0.15),
+        0 -30px 40px rgba(0, 0, 0, 0.1);
 }
 
 .profile-view .profile-picture button {
@@ -56,22 +55,21 @@
     font-size: 1em;
 }
 
-
 .profile-other button {
-    background-color: #4e6e6a;
+    background-color: #8a9867;
 }
 
 .profile-other button:hover {
-    background-color: #bdc1c1;
+    background-color: #7f8867;
 }
 
 .profile-other button:active {
-    background-color: #bdc1c1;
+    background-color: #919488;
 }
 
 .profile-other .reject-button {
-    background-color: #ac4040;
-} 
+    background-color: #ac406b;
+}
 
 .profile-view .button-container {
     margin-left: -4px;

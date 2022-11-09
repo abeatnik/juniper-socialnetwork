@@ -31,8 +31,36 @@ const Welcome = () => {
                         </Route>
                     </div>
                 </BrowserRouter>
-                <div className="ticker1"><p>+ + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + </p></div>
-                <div className="ticker2"><p>+ + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + Stop questioning whether you need another social network + + + </p></div>
+                <div className="ticker1">
+                    <p>
+                        + + + Stop questioning whether you need another social
+                        network + + + Stop questioning whether you need another
+                        social network + + + Stop questioning whether you need
+                        another social network + + + Stop questioning whether
+                        you need another social network + + + Stop questioning
+                        whether you need another social network + + + Stop
+                        questioning whether you need another social network + +
+                        + Stop questioning whether you need another social
+                        network + + + Stop questioning whether you need another
+                        social network + + + Stop questioning whether you need
+                        another social network + + +{" "}
+                    </p>
+                </div>
+                <div className="ticker2">
+                    <p>
+                        + + + Stop questioning whether you need another social
+                        network + + + Stop questioning whether you need another
+                        social network + + + Stop questioning whether you need
+                        another social network + + + Stop questioning whether
+                        you need another social network + + + Stop questioning
+                        whether you need another social network + + + Stop
+                        questioning whether you need another social network + +
+                        + Stop questioning whether you need another social
+                        network + + + Stop questioning whether you need another
+                        social network + + + Stop questioning whether you need
+                        another social network + + +{" "}
+                    </p>
+                </div>
             </div>
             <div className="footer"></div>
         </>
